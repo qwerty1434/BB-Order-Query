@@ -1,22 +1,22 @@
 package kr.bb.orderquery.domain.pickup.controller.response;
 
 import kr.bb.orderquery.domain.pickup.dto.PickupsForDateDto;
-import kr.bb.orderquery.domain.pickup.dto.PickupsInMypageDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PickupsInMypageResponse {
-    private List<PickupsInMypageDto> data;
+public class PickupsForDateResponse {
+    private List<PickupsForDateDto> data;
 
-    public static PickupsInMypageResponse from(List<PickupsInMypageDto> data) {
-        return PickupsInMypageResponse.builder()
+    public static PickupsForDateResponse from(List<PickupsForDateDto> data) {
+        return PickupsForDateResponse.builder()
                 .data(data)
                 .build();
     }
