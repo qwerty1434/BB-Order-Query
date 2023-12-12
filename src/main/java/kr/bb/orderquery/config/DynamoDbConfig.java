@@ -14,14 +14,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.TimeZone;
 
 
 @Configuration
-@EnableDynamoDBRepositories(basePackages = "kr.bb.orderquery.repository")
+@EnableDynamoDBRepositories(basePackages = "kr.bb.orderquery")
 public class DynamoDbConfig {
     @Value("${aws.dynamodb.endpoint}")
     private String amazonDynamoDbEndpoint;
@@ -62,7 +64,8 @@ public class DynamoDbConfig {
 
         @Override
         public LocalDateTime unconvert(Date source) {
-            return source.toInstant().atZone(TimeZone.getDefault().toZoneId()).toLocalDateTime();
+            return LocalDateTime.ofInstant(source.toInstant(), ZoneId.of("UTC"));
         }
     }
+
 }

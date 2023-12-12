@@ -35,10 +35,16 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation "org.springframework.cloud:spring-cloud-starter-bus-kafka"
 	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
 	// dynamoDB
 	implementation 'io.github.boostchicken:spring-data-dynamodb:5.2.5'
 	implementation 'software.amazon.awssdk:dynamodb:2.17.267'
+
+	// testContainers
+	testImplementation "org.junit.jupiter:junit-jupiter:5.8.1"
+	testImplementation "org.testcontainers:junit-jupiter:1.16.3"
+
 }
 
 dependencyManagement {
