@@ -3,12 +3,14 @@ package kr.bb.orderquery.domain.pickup.facade;
 import kr.bb.orderquery.client.ProductFeignClient;
 import kr.bb.orderquery.client.StoreFeignClient;
 import kr.bb.orderquery.client.dto.ProductInfoDto;
+import kr.bb.orderquery.client.dto.StatusChangeDto;
 import kr.bb.orderquery.domain.pickup.controller.response.PickupsForDateResponse;
 import kr.bb.orderquery.domain.pickup.controller.response.PickupsInMypageResponse;
 import kr.bb.orderquery.domain.pickup.dto.PickupCreateDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
 import kr.bb.orderquery.domain.pickup.service.PickupService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,6 +27,21 @@ public class PickupFacade {
         String productId = pickupCreateDto.getProductId();
         ProductInfoDto productInfo = productFeignClient.getProductInfo(productId);
         pickupService.createPickup(storeAddress, productInfo, pickupCreateDto);
+    }
+
+    //    @KafkaListener
+    public void updateReservationStatus(StatusChangeDto statusChangeDto) {
+        pickupService.updateReservationStatus(statusChangeDto.getId(), statusChangeDto.getStatus());
+    }
+
+    //    @SqsListener()
+    public void updateCardStatus(@Payload StatusChangeDto statusChangeDto) {
+        pickupService.updateCardStatus(statusChangeDto.getId(), statusChangeDto.getStatus());
+    }
+
+    //    @SqsListener()
+    public void updateReviewStatus(@Payload StatusChangeDto statusChangeDto) {
+        pickupService.updateReviewStatus(statusChangeDto.getId(), statusChangeDto.getStatus());
     }
 
     public PickupsInMypageResponse getPickupsOfUser(Long userId) {

@@ -22,7 +22,7 @@ public class PickupReader {
         return pickupRepository.findAllByStoreIdAndPickupDate(storeId, pickupDate);
     }
 
-    public Pickup readPickup(String pickup) {
+    public Pickup read(String pickup) {
         return pickupRepository.findById(pickup).orElseThrow(PickupNotFoundException::new);
     }
 }
