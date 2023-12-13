@@ -211,7 +211,6 @@ class PickupServiceTest extends AbstractContainer {
     private PickupCreateDto createPickupCreateDto(String pickupReservationId) {
         return PickupCreateDto.builder()
                 .pickupReservationId(pickupReservationId)
-                .reservationCode("픽업예약 코드")
                 .userId(1L)
                 .storeId(2L)
                 .productId("상품 아이디")

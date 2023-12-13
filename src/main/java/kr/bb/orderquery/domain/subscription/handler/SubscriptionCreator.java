@@ -7,6 +7,8 @@ import kr.bb.orderquery.domain.subscription.repository.SubscriptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class SubscriptionCreator {
@@ -15,7 +17,7 @@ public class SubscriptionCreator {
     public Subscription create(ProductInfoDto productInfo, SubscriptionCreateDto subscriptionCreateDto) {
         Subscription subscription = Subscription.builder()
                 .subscriptionId(subscriptionCreateDto.getSubscriptionId())
-                .subscriptionCode(subscriptionCreateDto.getSubscriptionCode())
+                .subscriptionCode(UUID.randomUUID().toString())
                 .userId(subscriptionCreateDto.getUserId())
                 .storeId(productInfo.getStoreId())
                 .productThumbnail(productInfo.getProductThumbnail())
@@ -40,7 +42,7 @@ public class SubscriptionCreator {
                 .deliveryPrice(subscriptionCreateDto.getDeliveryPrice())
                 .actualPrice(subscriptionCreateDto.getActualPrice())
                 .reviewStatus(subscriptionCreateDto.getReviewStatus())
-                .isUnsubscribed(subscriptionCreateDto.getIsUnsubscribed())
+                .isUnsubscribed(false)
                 .build();
 
         return subscriptionRepository.save(subscription);

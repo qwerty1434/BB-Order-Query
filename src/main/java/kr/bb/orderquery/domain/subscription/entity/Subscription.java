@@ -100,4 +100,8 @@ public class Subscription {
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
     private Boolean isUnsubscribed;
 
+
+    @DynamoDBAttribute(attributeName = "delivery_request")
+    private String deliveryRequest;
+
 }

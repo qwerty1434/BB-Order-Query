@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class PickupCreator {
                 .userId(pickupCreateDto.getUserId())
                 .pickupDate(pickupCreateDto.getPickupDate().toString())
                 .pickupTime(pickupCreateDto.getPickupTime())
-                .reservationCode(pickupCreateDto.getReservationCode())
+                .reservationCode(UUID.randomUUID().toString())
                 .storeId(pickupCreateDto.getStoreId())
                 .storeAddress(storeAddress.getStoreAddress())
                 .storeName(storeAddress.getStoreName())

@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SubscriptionCreateDto {
     private String subscriptionId;
-    private String subscriptionCode;
     private Long userId;
     private Long storeId;
     private String productId;
@@ -39,5 +38,5 @@ public class SubscriptionCreateDto {
     private Long deliveryPrice;
     private Long actualPrice;
     private String reviewStatus;
-    private Boolean isUnsubscribed;
+    private String deliveryRequest;
 }
