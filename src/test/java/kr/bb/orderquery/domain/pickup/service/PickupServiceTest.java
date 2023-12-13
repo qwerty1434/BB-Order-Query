@@ -9,6 +9,7 @@ import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import kr.bb.orderquery.AbstractContainer;
 import kr.bb.orderquery.client.dto.ProductInfoDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupCreateDto;
+import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupsForDateDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupsInMypageDto;
 import kr.bb.orderquery.domain.pickup.entity.Pickup;
@@ -96,13 +97,13 @@ class PickupServiceTest extends AbstractContainer {
 
     @DisplayName("특정 유저의 픽업예약 목록만 가져온다")
     @Test
-    void getPickupsForUser() {
+    void getPickupsOfUser() {
         // given
         Long userId = 1L;
-        Pickup p1 = createPickupWithId(userId);
-        Pickup p2 = createPickupWithId(userId);
-        Pickup p3 = createPickupWithId(2L);
-        Pickup p4 = createPickupWithId(3L);
+        Pickup p1 = createPickupWithUserId(userId);
+        Pickup p2 = createPickupWithUserId(userId);
+        Pickup p3 = createPickupWithUserId(2L);
+        Pickup p4 = createPickupWithUserId(3L);
         pickupRepository.saveAll(List.of(p1,p2,p3,p4));
 
         // when
@@ -113,7 +114,7 @@ class PickupServiceTest extends AbstractContainer {
 
     }
 
-    @DisplayName("특정 유저의 픽업예약 목록은 내림차순으로 정렬되어 있다")
+    @DisplayName("특정 유저의 픽업예약 목록은 픽업일 기준 내림차순으로 정렬되어 있다")
     @Test
     void pickupsInMypageAreSortedWithDesc() {
         // given
@@ -135,7 +136,26 @@ class PickupServiceTest extends AbstractContainer {
                         now.toLocalDate().minusDays(2).toString()
                 );
 
+    }
 
+    @DisplayName("픽업예약 목록은 예약 시간 기준 내림차순으로 정렬되어 있다")
+    @Test
+    void pickupsForUserAreSortedWithPickupTimeDesc() {
+        // given
+        Long userId = 1L;
+
+        Pickup p1 = createPickupWithPickupTime(userId, "12:30");
+        Pickup p2 = createPickupWithPickupTime(userId, "13:00");
+        Pickup p3 = createPickupWithPickupTime(userId, "12:00");
+        pickupRepository.saveAll(List.of(p1,p2,p3));
+
+        // when
+        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId);
+
+        // then
+        assertThat(pickupsForUser).hasSize(3)
+                .extracting("pickupTime")
+                .containsExactly("13:00","12:30","12:00");
     }
 
     @DisplayName("특정 가게의 특정 날짜에 예정되어 있는 픽업예약 목록을 가져온다")
@@ -160,40 +180,20 @@ class PickupServiceTest extends AbstractContainer {
 
     }
 
-    @DisplayName("픽업예약 목록은 예약 시간 기준 내림차순으로 정렬되어 있다")
+    @DisplayName("픽업예약 아이디를 통해 픽업예약 정보를 가져온다")
     @Test
-    void func() {
+    void getPickupReservationDetail() {
         // given
-        Long userId = 1L;
-
-        Pickup p1 = createPickupWithPickupTime(userId, "12:30");
-        Pickup p2 = createPickupWithPickupTime(userId, "13:00");
-        Pickup p3 = createPickupWithPickupTime(userId, "12:00");
-        pickupRepository.saveAll(List.of(p1,p2,p3));
+        String pickupId = UUID.randomUUID().toString();
+        Pickup pickup = createPickupWithId(pickupId);
+        pickupRepository.save(pickup);
 
         // when
-        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId);
+        PickupDetailDto pickupDetailDto = pickupService.getPickup(pickupId);
 
         // then
-        assertThat(pickupsForUser).hasSize(3)
-                .extracting("pickupTime")
-                .containsExactly("13:00","12:30","12:00");
+        assertThat(pickupDetailDto.getPickupDate()).isEqualTo(pickup.getPickupDate());
     }
-
-    @Test
-    void getPickup() {
-        // given;
-        Long userId = 1L;
-        Pickup pickup = createPickupWithId(userId);
-        Pickup savedPickup = pickupRepository.save(pickup);
-
-        // when
-        Pickup result = pickupRepository.findById(savedPickup.getPickupReservationId()).get();
-
-        // then
-        assertThat(result).isNotNull();
-    }
-
 
 
     private ProductInfoDto createProductInfoDto() {
@@ -228,11 +228,38 @@ class PickupServiceTest extends AbstractContainer {
                 .build();
     }
 
-    private Pickup createPickupWithId(Long userId) {
+    private Pickup createPickupWithUserId(Long userId) {
         return Pickup.builder()
                 .pickupReservationId(UUID.randomUUID().toString())
                 .reservationCode("픽업예약 코드")
                 .userId(userId)
+                .pickupDateTime(LocalDateTime.now())
+                .pickupDate(LocalDate.now().toString())
+                .pickupTime("00:00")
+                .storeId(2L)
+                .storeAddress("가게주소")
+                .productThumbnail("상품 썸네일")
+                .productName("상품명")
+                .unitPrice(1_000L)
+                .ordererName("주문자 명")
+                .ordererPhoneNumber("주문자 전화번호")
+                .ordererEmail("주문자 이메일")
+                .quantity(10)
+                .totalOrderPrice(10_010L)
+                .totalDiscountPrice(10L)
+                .deliveryPrice(100L)
+                .actualPrice(10_200L)
+                .paymentDateTime(LocalDateTime.now())
+                .reservationStatus("RESERVATION_READY")
+                .reviewStatus("REVIEW_READY")
+                .cardStatus("CARD_READY")
+                .build();
+    }
+    private Pickup createPickupWithId(String pickupId) {
+        return Pickup.builder()
+                .pickupReservationId(pickupId)
+                .reservationCode("픽업예약 코드")
+                .userId(1L)
                 .pickupDateTime(LocalDateTime.now())
                 .pickupDate(LocalDate.now().toString())
                 .pickupTime("00:00")

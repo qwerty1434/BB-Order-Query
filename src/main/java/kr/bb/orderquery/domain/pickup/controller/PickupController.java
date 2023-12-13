@@ -18,7 +18,7 @@ public class PickupController {
     @GetMapping("/reservations")
     public ResponseEntity<PickupsInMypageResponse> myPickups(@RequestHeader(value = "userId") Long userId) {
         // TODO : 페이지네이션
-        return ResponseEntity.ok().body(pickupFacade.getPickupsForUser(userId));
+        return ResponseEntity.ok().body(pickupFacade.getPickupsOfUser(userId));
     }
 
     @GetMapping("/{storeId}/reservations")

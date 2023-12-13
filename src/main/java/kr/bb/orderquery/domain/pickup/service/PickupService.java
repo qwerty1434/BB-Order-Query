@@ -10,7 +10,6 @@ import kr.bb.orderquery.domain.pickup.handler.PickupCreator;
 import kr.bb.orderquery.domain.pickup.handler.PickupReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -34,7 +33,7 @@ public class PickupService {
     }
 
     public List<PickupsForDateDto> getPickupsForDate(Long storeId, String pickupDate) {
-        return pickupReader.readByPickupDate(storeId, pickupDate)
+        return pickupReader.readByStoreIdAndPickupDate(storeId, pickupDate)
                 .stream()
                 .sorted(Comparator.comparing(Pickup::getPickupDateTime))
                 .map(PickupsForDateDto::fromEntity)

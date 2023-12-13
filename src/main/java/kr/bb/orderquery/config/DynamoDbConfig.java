@@ -67,5 +67,16 @@ public class DynamoDbConfig {
             return LocalDateTime.ofInstant(source.toInstant(), ZoneId.of("UTC"));
         }
     }
+    public static class LocalDateConverter implements DynamoDBTypeConverter<Date, LocalDate> {
+        @Override
+        public Date convert(LocalDate source) {
+            return Date.from(source.atStartOfDay().toInstant(ZoneOffset.UTC));
+        }
+
+        @Override
+        public LocalDate unconvert(Date source) {
+            return LocalDate.ofInstant(source.toInstant(), ZoneId.of("UTC"));
+        }
+    }
 
 }

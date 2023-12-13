@@ -1,0 +1,41 @@
+package kr.bb.orderquery.domain.subscription.dto;
+
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class SubscriptionCreateDto {
+    private String subscriptionId;
+    private String subscriptionCode;
+    private Long userId;
+    private Long storeId;
+    private String productId;
+    private Integer quantity;
+    private String ordererName;
+    private String ordererPhoneNumber;
+    private String ordererEmail;
+    private String recipientName;
+    private String recipientPhoneNumber;
+    private String deliveryAddress;
+    private LocalDateTime paymentDateTime;
+    private LocalDate nextDeliveryDate;
+    private LocalDate nextPaymentDate;
+    private Long totalOrderPrice;
+    private Long totalDiscountPrice;
+    private Long deliveryPrice;
+    private Long actualPrice;
+    private String reviewStatus;
+    private String cardStatus;
+    private Boolean isUnsubscribed;
+}

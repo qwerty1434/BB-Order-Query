@@ -18,7 +18,7 @@ public class PickupReader {
         return pickupRepository.findAllByUserIdOrderByPickupDateTimeDesc(userId);
     }
 
-    public List<Pickup> readByPickupDate(Long storeId, String pickupDate) {
+    public List<Pickup> readByStoreIdAndPickupDate(Long storeId, String pickupDate) {
         return pickupRepository.findAllByStoreIdAndPickupDate(storeId, pickupDate);
     }
 

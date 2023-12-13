@@ -13,4 +13,5 @@ public class ProductInfoDto {
     private String productThumbnail;
     private String productName;
     private Long unitPrice;
+    private Long storeId;
 }

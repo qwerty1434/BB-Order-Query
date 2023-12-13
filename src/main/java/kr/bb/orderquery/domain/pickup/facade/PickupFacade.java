@@ -7,12 +7,9 @@ import kr.bb.orderquery.domain.pickup.controller.response.PickupsForDateResponse
 import kr.bb.orderquery.domain.pickup.controller.response.PickupsInMypageResponse;
 import kr.bb.orderquery.domain.pickup.dto.PickupCreateDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
-import kr.bb.orderquery.domain.pickup.dto.PickupsInMypageDto;
 import kr.bb.orderquery.domain.pickup.service.PickupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +17,6 @@ public class PickupFacade {
     private final StoreFeignClient storeFeignClient;
     private final ProductFeignClient productFeignClient;
     private final PickupService pickupService;
-
-
 
 //    @KafkaListener
     public void create(PickupCreateDto pickupCreateDto) {
@@ -32,7 +27,7 @@ public class PickupFacade {
         pickupService.createPickup(storeAddress, productInfo, pickupCreateDto);
     }
 
-    public PickupsInMypageResponse getPickupsForUser(Long userId) {
+    public PickupsInMypageResponse getPickupsOfUser(Long userId) {
         return PickupsInMypageResponse.from(pickupService.getPickupsForUser(userId));
     }
 

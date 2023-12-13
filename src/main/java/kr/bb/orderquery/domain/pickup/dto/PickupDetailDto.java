@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -28,6 +29,8 @@ public class PickupDetailDto {
     private String ordererName;
     private String ordererPhoneNumber;
     private String ordererEmail;
+    private LocalDate pickupDate;
+    private String pickupTime;
 
     public static PickupDetailDto fromEntity(Pickup pickup) {
         return PickupDetailDto.builder()
@@ -46,6 +49,8 @@ public class PickupDetailDto {
                 .ordererName(pickup.getOrdererName())
                 .ordererPhoneNumber(pickup.getOrdererPhoneNumber())
                 .ordererEmail(pickup.getOrdererEmail())
+                .pickupDate(LocalDate.parse(pickup.getPickupDate()))
+                .pickupTime(pickup.getPickupTime())
                 .build();
     }
 
