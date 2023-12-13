@@ -82,7 +82,7 @@ class SubscriptionServiceTest extends AbstractContainer {
                 .containsExactly(subscriptionId,
                         subscriptionCreateDto.getUserId(),
                         LocalDateTime.parse(subscriptionCreateDto.getPaymentDateTime().format(formatter),formatter),
-                        subscriptionCreateDto.getIsUnsubscribed()
+                        false
                 );
     }
 
@@ -155,8 +155,8 @@ class SubscriptionServiceTest extends AbstractContainer {
     private SubscriptionCreateDto createSubscriptionCreateDto(String subscriptionId) {
         return SubscriptionCreateDto.builder()
                 .subscriptionId(subscriptionId)
-                .subscriptionCode("구독 코드")
                 .userId(1L)
+                .storeId(2L)
                 .productId("상품 아이디")
                 .quantity(10)
                 .ordererName("주문자 명")
@@ -164,7 +164,10 @@ class SubscriptionServiceTest extends AbstractContainer {
                 .ordererEmail("주문자 이메일")
                 .recipientName("수령자 명")
                 .recipientPhoneNumber("수령자 전화번호")
-                .deliveryAddress("배송지")
+                .storeName("가게이름")
+                .zipcode("우편번호")
+                .roadName("도로명주소")
+                .addressDetail("상세주소")
                 .paymentDateTime(LocalDateTime.now())
                 .nextDeliveryDate(LocalDate.now().plusMonths(1))
                 .nextPaymentDate(LocalDate.now().plusMonths(1))
@@ -173,7 +176,7 @@ class SubscriptionServiceTest extends AbstractContainer {
                 .deliveryPrice(100L)
                 .actualPrice(10_200L)
                 .reviewStatus("REVIEW_READY")
-                .isUnsubscribed(false)
+                .deliveryRequest("요청사항")
                 .build();
     }
 

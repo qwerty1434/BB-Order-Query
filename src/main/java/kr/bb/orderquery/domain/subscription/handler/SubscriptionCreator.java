@@ -7,6 +7,8 @@ import kr.bb.orderquery.domain.subscription.repository.SubscriptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class SubscriptionCreator {
@@ -15,7 +17,7 @@ public class SubscriptionCreator {
     public Subscription create(ProductInfoDto productInfo, SubscriptionCreateDto subscriptionCreateDto) {
         Subscription subscription = Subscription.builder()
                 .subscriptionId(subscriptionCreateDto.getSubscriptionId())
-                .subscriptionCode(subscriptionCreateDto.getSubscriptionCode())
+                .subscriptionCode(UUID.randomUUID().toString())
                 .userId(subscriptionCreateDto.getUserId())
                 .storeId(productInfo.getStoreId())
                 .productThumbnail(productInfo.getProductThumbnail())
@@ -27,7 +29,11 @@ public class SubscriptionCreator {
                 .ordererEmail(subscriptionCreateDto.getOrdererEmail())
                 .recipientName(subscriptionCreateDto.getRecipientName())
                 .recipientPhoneNumber(subscriptionCreateDto.getRecipientPhoneNumber())
-                .deliveryAddress(subscriptionCreateDto.getDeliveryAddress())
+                .deliveryAddress(subscriptionCreateDto.getRoadName() + " " + subscriptionCreateDto.getAddressDetail())
+                .storeName(subscriptionCreateDto.getStoreName())
+                .zipcode(subscriptionCreateDto.getZipcode())
+                .roadName(subscriptionCreateDto.getRoadName())
+                .addressDetail(subscriptionCreateDto.getAddressDetail())
                 .paymentDateTime(subscriptionCreateDto.getPaymentDateTime())
                 .nextDeliveryDate(subscriptionCreateDto.getNextDeliveryDate().toString())
                 .nextPaymentDate(subscriptionCreateDto.getNextPaymentDate())
@@ -36,8 +42,8 @@ public class SubscriptionCreator {
                 .deliveryPrice(subscriptionCreateDto.getDeliveryPrice())
                 .actualPrice(subscriptionCreateDto.getActualPrice())
                 .reviewStatus(subscriptionCreateDto.getReviewStatus())
-                .cardStatus(subscriptionCreateDto.getCardStatus())
-                .isUnsubscribed(subscriptionCreateDto.getIsUnsubscribed())
+                .isUnsubscribed(false)
+                .productId(subscriptionCreateDto.getProductId())
                 .build();
 
         return subscriptionRepository.save(subscription);

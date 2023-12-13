@@ -37,6 +37,9 @@ public class Pickup {
     @DynamoDBIndexHashKey(attributeName = "store_id", globalSecondaryIndexName = "byStoreId")
     private Long storeId;
 
+    @DynamoDBAttribute(attributeName = "store_name")
+    private String storeName;
+
     @DynamoDBAttribute(attributeName = "store_address")
     private String storeAddress;
 
@@ -85,5 +88,8 @@ public class Pickup {
 
     @DynamoDBAttribute(attributeName = "card_status")
     private String cardStatus;
+
+    @DynamoDBAttribute(attributeName = "product_id")
+    private String productId;
 
 }

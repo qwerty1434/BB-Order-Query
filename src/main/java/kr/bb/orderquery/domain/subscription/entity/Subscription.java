@@ -35,6 +35,9 @@ public class Subscription {
     @DynamoDBAttribute(attributeName = "store_id")
     private Long storeId;
 
+    @DynamoDBAttribute(attributeName = "store_name")
+    private String storeName;
+
     @DynamoDBAttribute(attributeName = "product_thumbnail")
     private String productThumbnail;
 
@@ -65,6 +68,15 @@ public class Subscription {
     @DynamoDBAttribute(attributeName = "delivery_address")
     private String deliveryAddress;
 
+    @DynamoDBAttribute(attributeName = "zipcode")
+    private String zipcode;
+
+    @DynamoDBAttribute(attributeName = "road_name")
+    private String roadName;
+
+    @DynamoDBAttribute(attributeName = "address_detail")
+    private String addressDetail;
+
     @DynamoDBAttribute(attributeName = "payment_date_time")
     @DynamoDBTypeConverted(converter = DynamoDbConfig.LocalDateTimeConverter.class)
     private LocalDateTime paymentDateTime;
@@ -84,11 +96,14 @@ public class Subscription {
     @DynamoDBAttribute(attributeName = "review_status")
     private String reviewStatus;
 
-    @DynamoDBAttribute(attributeName = "card_status")
-    private String cardStatus;
-
     @DynamoDBAttribute(attributeName = "is_unsubscribed")
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
     private Boolean isUnsubscribed;
+
+    @DynamoDBAttribute(attributeName = "delivery_request")
+    private String deliveryRequest;
+
+    @DynamoDBAttribute(attributeName = "product_id")
+    private String productId;
 
 }

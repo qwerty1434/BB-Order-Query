@@ -1,6 +1,7 @@
 package kr.bb.orderquery.domain.pickup.handler;
 
 import kr.bb.orderquery.client.dto.ProductInfoDto;
+import kr.bb.orderquery.client.dto.StoreInfoDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupCreateDto;
 import kr.bb.orderquery.domain.pickup.entity.Pickup;
 import kr.bb.orderquery.domain.pickup.repository.PickupRepository;
@@ -11,22 +12,24 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class PickupCreator {
     private final PickupRepository pickupRepository;
 
-    public Pickup create(String storeAddress, ProductInfoDto productInfoDto, PickupCreateDto pickupCreateDto) {
+    public Pickup create(StoreInfoDto storeAddress, ProductInfoDto productInfoDto, PickupCreateDto pickupCreateDto) {
         Pickup pickup = Pickup.builder()
                 .pickupReservationId(pickupCreateDto.getPickupReservationId())
                 .pickupDateTime(combineDateAndTime(pickupCreateDto.getPickupDate(), pickupCreateDto.getPickupTime()))
                 .userId(pickupCreateDto.getUserId())
                 .pickupDate(pickupCreateDto.getPickupDate().toString())
                 .pickupTime(pickupCreateDto.getPickupTime())
-                .reservationCode(pickupCreateDto.getReservationCode())
+                .reservationCode(UUID.randomUUID().toString())
                 .storeId(pickupCreateDto.getStoreId())
-                .storeAddress(storeAddress)
+                .storeAddress(storeAddress.getStoreAddress())
+                .storeName(storeAddress.getStoreName())
                 .productThumbnail(productInfoDto.getProductThumbnail())
                 .productName(productInfoDto.getProductName())
                 .unitPrice(productInfoDto.getUnitPrice())
@@ -36,7 +39,6 @@ public class PickupCreator {
                 .quantity(pickupCreateDto.getQuantity())
                 .totalOrderPrice(pickupCreateDto.getTotalOrderPrice())
                 .totalDiscountPrice(pickupCreateDto.getTotalDiscountPrice())
-                .deliveryPrice(pickupCreateDto.getDeliveryPrice())
                 .actualPrice(pickupCreateDto.getActualPrice())
                 .paymentDateTime(pickupCreateDto.getPaymentDateTime())
                 .reservationStatus(pickupCreateDto.getReservationStatus())

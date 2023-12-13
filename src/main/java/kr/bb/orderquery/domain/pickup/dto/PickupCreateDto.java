@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class PickupCreateDto {
     private String pickupReservationId;
-    private String reservationCode;
     private Long userId;
     private Long storeId;
     private String productId;
@@ -26,7 +25,6 @@ public class PickupCreateDto {
     private String pickupTime;
     private Long totalOrderPrice;
     private Long totalDiscountPrice;
-    private Long deliveryPrice;
     private Long actualPrice;
     private LocalDateTime paymentDateTime;
     private String reservationStatus;

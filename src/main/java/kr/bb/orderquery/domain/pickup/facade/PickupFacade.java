@@ -4,6 +4,7 @@ import kr.bb.orderquery.client.ProductFeignClient;
 import kr.bb.orderquery.client.StoreFeignClient;
 import kr.bb.orderquery.client.dto.ProductInfoDto;
 import kr.bb.orderquery.client.dto.StatusChangeDto;
+import kr.bb.orderquery.client.dto.StoreInfoDto;
 import kr.bb.orderquery.domain.pickup.controller.response.PickupsForDateResponse;
 import kr.bb.orderquery.domain.pickup.controller.response.PickupsInMypageResponse;
 import kr.bb.orderquery.domain.pickup.dto.PickupCreateDto;
@@ -23,10 +24,10 @@ public class PickupFacade {
 //    @KafkaListener
     public void create(PickupCreateDto pickupCreateDto) {
         Long storeId = pickupCreateDto.getStoreId();
-        String storeAddress = storeFeignClient.getStoreAddress(storeId);
+        StoreInfoDto storeInfo = storeFeignClient.getStoreInfo(storeId);
         String productId = pickupCreateDto.getProductId();
         ProductInfoDto productInfo = productFeignClient.getProductInfo(productId);
-        pickupService.createPickup(storeAddress, productInfo, pickupCreateDto);
+        pickupService.createPickup(storeInfo, productInfo, pickupCreateDto);
     }
 
     //    @KafkaListener

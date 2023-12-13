@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SubscriptionCreateDto {
     private String subscriptionId;
-    private String subscriptionCode;
     private Long userId;
     private Long storeId;
     private String productId;
@@ -27,7 +26,10 @@ public class SubscriptionCreateDto {
     private String ordererEmail;
     private String recipientName;
     private String recipientPhoneNumber;
-    private String deliveryAddress;
+    private String storeName;
+    private String zipcode;
+    private String roadName;
+    private String addressDetail;
     private LocalDateTime paymentDateTime;
     private LocalDate nextDeliveryDate;
     private LocalDate nextPaymentDate;
@@ -36,6 +38,6 @@ public class SubscriptionCreateDto {
     private Long deliveryPrice;
     private Long actualPrice;
     private String reviewStatus;
-    private String cardStatus;
-    private Boolean isUnsubscribed;
+    private String deliveryRequest;
+
 }
