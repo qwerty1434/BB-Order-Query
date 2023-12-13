@@ -21,7 +21,7 @@ public class SubscriptionReader {
         return subscriptionRepository.findAllByStoreIdAndNextDeliveryDate(storeId, nextDeliveryDate);
     }
 
-    public Subscription readSubscription(String subscriptionId) {
+    public Subscription read(String subscriptionId) {
         return subscriptionRepository.findById(subscriptionId).orElseThrow(SubscriptionNotFoundException::new);
     }
 }
