@@ -2,15 +2,12 @@ package kr.bb.orderquery.domain.subscription.facade;
 
 import kr.bb.orderquery.client.ProductFeignClient;
 import kr.bb.orderquery.client.dto.ProductInfoDto;
-import kr.bb.orderquery.client.dto.StatusChangeDto;
 import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsForDateResponse;
 import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsForMypageResponse;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionCreateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 @Service
