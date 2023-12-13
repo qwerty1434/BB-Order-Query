@@ -1,6 +1,7 @@
 package kr.bb.orderquery.domain.pickup.handler;
 
 import kr.bb.orderquery.client.dto.ProductInfoDto;
+import kr.bb.orderquery.client.dto.StoreInfoDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupCreateDto;
 import kr.bb.orderquery.domain.pickup.entity.Pickup;
 import kr.bb.orderquery.domain.pickup.repository.PickupRepository;
@@ -17,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 public class PickupCreator {
     private final PickupRepository pickupRepository;
 
-    public Pickup create(String storeAddress, ProductInfoDto productInfoDto, PickupCreateDto pickupCreateDto) {
+    public Pickup create(StoreInfoDto storeAddress, ProductInfoDto productInfoDto, PickupCreateDto pickupCreateDto) {
         Pickup pickup = Pickup.builder()
                 .pickupReservationId(pickupCreateDto.getPickupReservationId())
                 .pickupDateTime(combineDateAndTime(pickupCreateDto.getPickupDate(), pickupCreateDto.getPickupTime()))
@@ -26,7 +27,8 @@ public class PickupCreator {
                 .pickupTime(pickupCreateDto.getPickupTime())
                 .reservationCode(pickupCreateDto.getReservationCode())
                 .storeId(pickupCreateDto.getStoreId())
-                .storeAddress(storeAddress)
+                .storeAddress(storeAddress.getStoreAddress())
+                .storeName(storeAddress.getStoreName())
                 .productThumbnail(productInfoDto.getProductThumbnail())
                 .productName(productInfoDto.getProductName())
                 .unitPrice(productInfoDto.getUnitPrice())
@@ -36,7 +38,6 @@ public class PickupCreator {
                 .quantity(pickupCreateDto.getQuantity())
                 .totalOrderPrice(pickupCreateDto.getTotalOrderPrice())
                 .totalDiscountPrice(pickupCreateDto.getTotalDiscountPrice())
-                .deliveryPrice(pickupCreateDto.getDeliveryPrice())
                 .actualPrice(pickupCreateDto.getActualPrice())
                 .paymentDateTime(pickupCreateDto.getPaymentDateTime())
                 .reservationStatus(pickupCreateDto.getReservationStatus())

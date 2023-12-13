@@ -1,6 +1,7 @@
 package kr.bb.orderquery.domain.pickup.service;
 
 import kr.bb.orderquery.client.dto.ProductInfoDto;
+import kr.bb.orderquery.client.dto.StoreInfoDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupCreateDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupsForDateDto;
@@ -21,7 +22,7 @@ public class PickupService {
     private final PickupCreator pickupCreator;
     private final PickupReader pickupReader;
 
-    public Pickup createPickup(String storeAddress, ProductInfoDto productInfo, PickupCreateDto pickupCreateDto) {
+    public Pickup createPickup(StoreInfoDto storeAddress, ProductInfoDto productInfo, PickupCreateDto pickupCreateDto) {
         return pickupCreator.create(storeAddress, productInfo, pickupCreateDto);
     }
 

@@ -26,7 +26,6 @@ public class PickupCreateDto {
     private String pickupTime;
     private Long totalOrderPrice;
     private Long totalDiscountPrice;
-    private Long deliveryPrice;
     private Long actualPrice;
     private LocalDateTime paymentDateTime;
     private String reservationStatus;

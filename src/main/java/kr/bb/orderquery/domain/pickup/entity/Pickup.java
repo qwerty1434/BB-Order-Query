@@ -37,6 +37,9 @@ public class Pickup {
     @DynamoDBIndexHashKey(attributeName = "store_id", globalSecondaryIndexName = "byStoreId")
     private Long storeId;
 
+    @DynamoDBAttribute(attributeName = "store_name")
+    private String storeName;
+
     @DynamoDBAttribute(attributeName = "store_address")
     private String storeAddress;
 

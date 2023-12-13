@@ -17,12 +17,13 @@ public class PickupDetailDto {
     private String productName;
     private String productThumbnail;
     private Long unitPrice;
+    private String storeName;
+    private String storeAddress;
     private Integer quantity;
     private String reservationStatus;
     private LocalDateTime paymentDateTime;
     private Long totalOrderPrice;
     private Long totalDiscountPrice;
-    private Long deliveryPrice;
     private Long actualPrice;
     private String reviewStatus;
     private String cardStatus;
@@ -37,12 +38,13 @@ public class PickupDetailDto {
                 .productName(pickup.getProductName())
                 .productThumbnail(pickup.getProductThumbnail())
                 .unitPrice(pickup.getUnitPrice())
+                .storeName(pickup.getStoreName())
+                .storeAddress(pickup.getStoreAddress())
                 .quantity(pickup.getQuantity())
                 .reservationStatus(pickup.getReservationStatus())
                 .paymentDateTime(pickup.getPaymentDateTime())
                 .totalOrderPrice(pickup.getTotalOrderPrice())
                 .totalDiscountPrice(pickup.getTotalDiscountPrice())
-                .deliveryPrice(pickup.getDeliveryPrice())
                 .actualPrice(pickup.getActualPrice())
                 .reviewStatus(pickup.getReviewStatus())
                 .cardStatus(pickup.getCardStatus())

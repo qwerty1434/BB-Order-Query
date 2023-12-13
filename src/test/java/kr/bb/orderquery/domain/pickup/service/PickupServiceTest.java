@@ -8,6 +8,7 @@ import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import kr.bb.orderquery.AbstractContainer;
 import kr.bb.orderquery.client.dto.ProductInfoDto;
+import kr.bb.orderquery.client.dto.StoreInfoDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupCreateDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupsForDateDto;
@@ -68,13 +69,16 @@ class PickupServiceTest extends AbstractContainer {
     @Test
     void createPickup(){
         // given
-        String storeAddress = "서울 강남구";
+        StoreInfoDto storeInfo = StoreInfoDto.builder()
+                .storeName("가게명")
+                .storeAddress("가게주소")
+                .build();
         ProductInfoDto productInfoDto = createProductInfoDto();
         String pickupReservationId = UUID.randomUUID().toString();
         PickupCreateDto pickupCreateDto = createPickupCreateDto(pickupReservationId);
 
         // when
-        Pickup pickup = pickupService.createPickup(storeAddress, productInfoDto, pickupCreateDto);
+        Pickup pickup = pickupService.createPickup(storeInfo, productInfoDto, pickupCreateDto);
 
         // then
         Pickup result = pickupRepository.findById(pickup.getPickupReservationId()).get();
@@ -219,7 +223,6 @@ class PickupServiceTest extends AbstractContainer {
                 .pickupTime("13:00")
                 .totalOrderPrice(10_010L)
                 .totalDiscountPrice(10L)
-                .deliveryPrice(100L)
                 .actualPrice(10_200L)
                 .paymentDateTime(LocalDateTime.now())
                 .reservationStatus("RESERVATION_READY")
