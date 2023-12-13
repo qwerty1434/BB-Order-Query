@@ -27,7 +27,11 @@ public class SubscriptionCreator {
                 .ordererEmail(subscriptionCreateDto.getOrdererEmail())
                 .recipientName(subscriptionCreateDto.getRecipientName())
                 .recipientPhoneNumber(subscriptionCreateDto.getRecipientPhoneNumber())
-                .deliveryAddress(subscriptionCreateDto.getDeliveryAddress())
+                .deliveryAddress(subscriptionCreateDto.getRoadName() + " " + subscriptionCreateDto.getAddressDetail())
+                .storeName(subscriptionCreateDto.getStoreName())
+                .zipcode(subscriptionCreateDto.getZipcode())
+                .roadName(subscriptionCreateDto.getRoadName())
+                .addressDetail(subscriptionCreateDto.getAddressDetail())
                 .paymentDateTime(subscriptionCreateDto.getPaymentDateTime())
                 .nextDeliveryDate(subscriptionCreateDto.getNextDeliveryDate().toString())
                 .nextPaymentDate(subscriptionCreateDto.getNextPaymentDate())
@@ -36,7 +40,6 @@ public class SubscriptionCreator {
                 .deliveryPrice(subscriptionCreateDto.getDeliveryPrice())
                 .actualPrice(subscriptionCreateDto.getActualPrice())
                 .reviewStatus(subscriptionCreateDto.getReviewStatus())
-                .cardStatus(subscriptionCreateDto.getCardStatus())
                 .isUnsubscribed(subscriptionCreateDto.getIsUnsubscribed())
                 .build();
 
