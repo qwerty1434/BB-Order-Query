@@ -8,9 +8,10 @@ import kr.bb.orderquery.domain.subscription.dto.SubscriptionCreateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class SubscriptionFacade {
     private final SubscriptionService subscriptionService;

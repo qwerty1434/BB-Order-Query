@@ -12,9 +12,10 @@ import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
 import kr.bb.orderquery.domain.pickup.service.PickupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class PickupFacade {
     private final StoreFeignClient storeFeignClient;
