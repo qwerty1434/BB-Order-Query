@@ -1,5 +1,6 @@
 package kr.bb.orderquery.domain.pickup.service;
 
+import bloomingblooms.domain.pickup.PickupCreateDto;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
@@ -9,7 +10,6 @@ import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import kr.bb.orderquery.AbstractContainer;
 import kr.bb.orderquery.client.dto.ProductInfoDto;
 import kr.bb.orderquery.client.dto.StoreInfoDto;
-import kr.bb.orderquery.domain.pickup.dto.PickupCreateDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupsForDateDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupsInMypageDto;

@@ -1,15 +1,14 @@
 package kr.bb.orderquery.domain.subscription.facade;
 
+import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import kr.bb.orderquery.client.ProductFeignClient;
 import kr.bb.orderquery.client.dto.ProductInfoDto;
 import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsForDateResponse;
 import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsForMypageResponse;
-import kr.bb.orderquery.domain.subscription.dto.SubscriptionCreateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +23,6 @@ public class SubscriptionFacade {
         ProductInfoDto productInfoDto = productFeignClient.getProductInfo(productId);
         subscriptionService.createSubscription(productInfoDto, subscriptionCreateDto);
     }
-
 
     public SubscriptionsForMypageResponse getSubscriptionsOfUser(Long userId) {
         return SubscriptionsForMypageResponse.from(subscriptionService.getSubscriptionsOfUser(userId));

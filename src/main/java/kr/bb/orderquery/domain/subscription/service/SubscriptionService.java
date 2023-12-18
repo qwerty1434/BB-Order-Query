@@ -1,7 +1,7 @@
 package kr.bb.orderquery.domain.subscription.service;
 
+import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import kr.bb.orderquery.client.dto.ProductInfoDto;
-import kr.bb.orderquery.domain.subscription.dto.SubscriptionCreateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForDateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForUserDto;
@@ -11,7 +11,6 @@ import kr.bb.orderquery.domain.subscription.handler.SubscriptionManager;
 import kr.bb.orderquery.domain.subscription.handler.SubscriptionReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
