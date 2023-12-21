@@ -8,7 +8,7 @@ import com.amazonaws.services.dynamodbv2.model.Projection;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import kr.bb.orderquery.AbstractContainer;
-import kr.bb.orderquery.client.dto.ProductInfoDto;
+import bloomingblooms.domain.product.ProductInfoDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForDateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForUserDto;

@@ -1,6 +1,7 @@
 package kr.bb.orderquery.domain.pickup.service;
 
 import bloomingblooms.domain.pickup.PickupCreateDto;
+import bloomingblooms.domain.store.StoreNameAndAddressDto;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
@@ -8,8 +9,7 @@ import com.amazonaws.services.dynamodbv2.model.Projection;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import kr.bb.orderquery.AbstractContainer;
-import kr.bb.orderquery.client.dto.ProductInfoDto;
-import kr.bb.orderquery.client.dto.StoreInfoDto;
+import bloomingblooms.domain.product.ProductInfoDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupsForDateDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupsInMypageDto;
@@ -21,8 +21,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
@@ -71,7 +69,7 @@ class PickupServiceTest extends AbstractContainer {
     @Test
     void createPickup(){
         // given
-        StoreInfoDto storeInfo = StoreInfoDto.builder()
+        StoreNameAndAddressDto storeInfo = StoreNameAndAddressDto.builder()
                 .storeName("가게명")
                 .storeAddress("가게주소")
                 .build();

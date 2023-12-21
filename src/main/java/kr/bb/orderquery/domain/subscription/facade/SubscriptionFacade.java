@@ -4,7 +4,7 @@ import bloomingblooms.domain.StatusChangeDto;
 import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import bloomingblooms.domain.subscription.SubscriptionDateDto;
 import kr.bb.orderquery.client.ProductFeignClient;
-import kr.bb.orderquery.client.dto.ProductInfoDto;
+import bloomingblooms.domain.product.ProductInfoDto;
 import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsForDateResponse;
 import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsForMypageResponse;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
