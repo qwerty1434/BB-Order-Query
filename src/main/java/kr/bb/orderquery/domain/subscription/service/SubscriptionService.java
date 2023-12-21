@@ -1,7 +1,7 @@
 package kr.bb.orderquery.domain.subscription.service;
 
-import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import bloomingblooms.domain.product.ProductInfoDto;
+import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForDateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForUserDto;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -47,7 +48,6 @@ public class SubscriptionService {
         return SubscriptionDetailDto.fromEntity(subscriptionReader.read(subscriptionId));
     }
 
-
     public void updateSubscriptionDate(String subscriptionId, LocalDate nextDeliveryDate, LocalDate nextPaymentDate) {
         Subscription subscription = subscriptionReader.read(subscriptionId);
         subscriptionManager.updateNextDeliveryDate(subscription, nextDeliveryDate, nextPaymentDate);
@@ -63,4 +63,12 @@ public class SubscriptionService {
         subscriptionManager.changeReviewStatus(subscription, reviewStatus);
     }
 
+    public Map<Long,Boolean> getSubscriptionStatuses(Long userId, List<Long> storeIds) {
+        List<Long> subscriptionIds = subscriptionReader.readByUserId(userId)
+                .stream()
+                .map(Subscription::getStoreId)
+                .toList();
+
+        return storeIds.stream().collect(Collectors.toMap(id -> id, subscriptionIds::contains));
+    }
 }

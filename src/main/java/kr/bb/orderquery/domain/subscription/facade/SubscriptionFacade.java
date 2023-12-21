@@ -17,6 +17,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Map;
+
 @Component
 @RequiredArgsConstructor
 public class SubscriptionFacade {
@@ -60,6 +63,10 @@ public class SubscriptionFacade {
 
     public SubscriptionDetailDto getSubscriptionDetail(String subscriptionId) {
         return subscriptionService.getSubscription(subscriptionId);
+    }
+
+    public Map<Long,Boolean> getSubscriptionStatuses(Long userId, List<Long> storeIds) {
+        return subscriptionService.getSubscriptionStatuses(userId, storeIds);
     }
 
 }

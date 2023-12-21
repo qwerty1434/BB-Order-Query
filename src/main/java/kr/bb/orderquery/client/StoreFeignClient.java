@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "store-service")
 public interface StoreFeignClient {
-    @GetMapping
-    CommonResponse<String> getStoreAddress(Long storeId);
 
     @GetMapping("/client/stores/{storeId}/info")
     CommonResponse<StoreNameAndAddressDto> getStoreNameAndAddress(@PathVariable(name = "storeId") Long storeId);
