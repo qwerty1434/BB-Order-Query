@@ -32,6 +32,7 @@ public class PickupDetailDto {
     private String ordererEmail;
     private LocalDate pickupDate;
     private String pickupTime;
+    private String productId;
 
     public static PickupDetailDto fromEntity(Pickup pickup) {
         return PickupDetailDto.builder()
@@ -53,6 +54,7 @@ public class PickupDetailDto {
                 .ordererEmail(pickup.getOrdererEmail())
                 .pickupDate(LocalDate.parse(pickup.getPickupDate()))
                 .pickupTime(pickup.getPickupTime())
+                .productId(pickup.getProductId())
                 .build();
     }
 

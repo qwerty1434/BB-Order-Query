@@ -36,6 +36,8 @@ public class SubscriptionDetailDto {
     private LocalDate nextPaymentDate;
     private LocalDate nextDeliveryDate;
     private String deliveryRequest;
+    private String productId;
+
 
     public static SubscriptionDetailDto fromEntity(Subscription subscription) {
         return SubscriptionDetailDto.builder()
@@ -61,6 +63,7 @@ public class SubscriptionDetailDto {
                 .nextPaymentDate(subscription.getNextPaymentDate())
                 .nextDeliveryDate(LocalDate.parse(subscription.getNextDeliveryDate()))
                 .deliveryRequest(subscription.getDeliveryRequest())
+                .productId(subscription.getProductId())
                 .build();
     }
 }

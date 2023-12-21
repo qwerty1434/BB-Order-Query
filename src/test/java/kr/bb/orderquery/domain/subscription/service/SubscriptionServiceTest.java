@@ -1,5 +1,6 @@
 package kr.bb.orderquery.domain.subscription.service;
 
+import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
@@ -8,7 +9,6 @@ import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import kr.bb.orderquery.AbstractContainer;
 import kr.bb.orderquery.client.dto.ProductInfoDto;
-import kr.bb.orderquery.domain.subscription.dto.SubscriptionCreateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForDateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForUserDto;
@@ -156,6 +156,7 @@ class SubscriptionServiceTest extends AbstractContainer {
         return SubscriptionCreateDto.builder()
                 .subscriptionId(subscriptionId)
                 .userId(1L)
+                .storeId(2L)
                 .productId("상품 아이디")
                 .quantity(10)
                 .ordererName("주문자 명")
@@ -175,6 +176,7 @@ class SubscriptionServiceTest extends AbstractContainer {
                 .deliveryPrice(100L)
                 .actualPrice(10_200L)
                 .reviewStatus("REVIEW_READY")
+                .deliveryRequest("요청사항")
                 .build();
     }
 

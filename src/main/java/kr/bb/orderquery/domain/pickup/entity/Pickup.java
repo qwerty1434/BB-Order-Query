@@ -89,4 +89,7 @@ public class Pickup {
     @DynamoDBAttribute(attributeName = "card_status")
     private String cardStatus;
 
+    @DynamoDBAttribute(attributeName = "product_id")
+    private String productId;
+
 }

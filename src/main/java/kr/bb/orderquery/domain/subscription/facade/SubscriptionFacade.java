@@ -1,29 +1,54 @@
 package kr.bb.orderquery.domain.subscription.facade;
 
+import bloomingblooms.domain.StatusChangeDto;
+import bloomingblooms.domain.subscription.SubscriptionCreateDto;
+import bloomingblooms.domain.subscription.SubscriptionDateDto;
 import kr.bb.orderquery.client.ProductFeignClient;
 import kr.bb.orderquery.client.dto.ProductInfoDto;
 import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsForDateResponse;
 import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsForMypageResponse;
-import kr.bb.orderquery.domain.subscription.dto.SubscriptionCreateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.cloud.aws.messaging.listener.Acknowledgment;
+import org.springframework.cloud.aws.messaging.listener.SqsMessageDeletionPolicy;
+import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class SubscriptionFacade {
     private final SubscriptionService subscriptionService;
     private final ProductFeignClient productFeignClient;
 
-
-//    @KafkaListener
+    @KafkaListener(topics = "subscription-create", groupId = "sub-create")
     public void create(SubscriptionCreateDto subscriptionCreateDto) {
         String productId = subscriptionCreateDto.getProductId();
-        ProductInfoDto productInfoDto = productFeignClient.getProductInfo(productId);
+        ProductInfoDto productInfoDto = productFeignClient.getProductInfo(productId).getData();
         subscriptionService.createSubscription(productInfoDto, subscriptionCreateDto);
     }
 
+    @KafkaListener(topics = "subscription-date-update", groupId = "sub-update")
+    public void updateSubscriptionDate(SubscriptionDateDto subscriptionDateDto) {
+        subscriptionService.updateSubscriptionDate(subscriptionDateDto.getSubscriptionId(),
+                subscriptionDateDto.getNextDeliveryDate(), subscriptionDateDto.getNextPaymentDate());
+    }
+
+    @KafkaListener(topics= "unsubscribe", groupId = "unsub")
+    public void unSubscribe(String subscriptionId) {
+        subscriptionService.unSubscribe(subscriptionId);
+    }
+
+    @SqsListener(
+        value = "${cloud.aws.sqs.subscription-review-status-queue.name}",
+        deletionPolicy = SqsMessageDeletionPolicy.NEVER
+    )
+    public void updateReviewStatus(@Payload StatusChangeDto statusChangeDto, Acknowledgment ack) {
+        subscriptionService.updateReviewStatus(statusChangeDto.getId(), statusChangeDto.getStatus());
+        ack.acknowledge();
+    }
 
     public SubscriptionsForMypageResponse getSubscriptionsOfUser(Long userId) {
         return SubscriptionsForMypageResponse.from(subscriptionService.getSubscriptionsOfUser(userId));
@@ -36,6 +61,5 @@ public class SubscriptionFacade {
     public SubscriptionDetailDto getSubscriptionDetail(String subscriptionId) {
         return subscriptionService.getSubscription(subscriptionId);
     }
-
 
 }

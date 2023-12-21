@@ -1,17 +1,18 @@
 package kr.bb.orderquery.domain.subscription.service;
 
+import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import kr.bb.orderquery.client.dto.ProductInfoDto;
-import kr.bb.orderquery.domain.subscription.dto.SubscriptionCreateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForDateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForUserDto;
 import kr.bb.orderquery.domain.subscription.entity.Subscription;
 import kr.bb.orderquery.domain.subscription.handler.SubscriptionCreator;
+import kr.bb.orderquery.domain.subscription.handler.SubscriptionManager;
 import kr.bb.orderquery.domain.subscription.handler.SubscriptionReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class SubscriptionService {
     private final SubscriptionCreator subscriptionCreator;
     private final SubscriptionReader subscriptionReader;
+    private final SubscriptionManager subscriptionManager;
 
     public Subscription createSubscription(ProductInfoDto productInfo, SubscriptionCreateDto subscriptionCreateDto) {
         return subscriptionCreator.create(productInfo, subscriptionCreateDto);
@@ -42,7 +44,23 @@ public class SubscriptionService {
     }
 
     public SubscriptionDetailDto getSubscription(String subscriptionId) {
-        return SubscriptionDetailDto.fromEntity(subscriptionReader.readSubscription(subscriptionId));
+        return SubscriptionDetailDto.fromEntity(subscriptionReader.read(subscriptionId));
+    }
+
+
+    public void updateSubscriptionDate(String subscriptionId, LocalDate nextDeliveryDate, LocalDate nextPaymentDate) {
+        Subscription subscription = subscriptionReader.read(subscriptionId);
+        subscriptionManager.updateNextDeliveryDate(subscription, nextDeliveryDate, nextPaymentDate);
+    }
+
+    public void unSubscribe(String subscriptionId) {
+        Subscription subscription = subscriptionReader.read(subscriptionId);
+        subscriptionManager.unSubscribe(subscription);
+    }
+
+    public void updateReviewStatus(String subscriptionId, String reviewStatus) {
+        Subscription subscription = subscriptionReader.read(subscriptionId);
+        subscriptionManager.changeReviewStatus(subscription, reviewStatus);
     }
 
 }
