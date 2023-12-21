@@ -28,9 +28,9 @@ public class PickupFacade {
     @KafkaListener(topics = "pickup-create", groupId = "pick-create")
     public void create(PickupCreateDto pickupCreateDto) {
         Long storeId = pickupCreateDto.getStoreId();
-        StoreInfoDto storeInfo = storeFeignClient.getStoreInfo(storeId);
+        StoreInfoDto storeInfo = storeFeignClient.getStoreInfo(storeId).getData();
         String productId = pickupCreateDto.getProductId();
-        ProductInfoDto productInfo = productFeignClient.getProductInfo(productId);
+        ProductInfoDto productInfo = productFeignClient.getProductInfo(productId).getData();
         pickupService.createPickup(storeInfo, productInfo, pickupCreateDto);
     }
 
