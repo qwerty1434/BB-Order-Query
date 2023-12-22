@@ -28,9 +28,7 @@ public class SubscriptionFacade {
 
     @KafkaListener(topics = "subscription-create", groupId = "sub-create")
     public void create(SubscriptionCreateDto subscriptionCreateDto) {
-        String productId = subscriptionCreateDto.getProductId();
-        ProductInfoDto productInfoDto = productFeignClient.getProductInfo(productId).getData();
-        subscriptionService.createSubscription(productInfoDto, subscriptionCreateDto);
+        subscriptionService.createSubscription(subscriptionCreateDto);
     }
 
     @KafkaListener(topics = "subscription-date-update", groupId = "sub-update")

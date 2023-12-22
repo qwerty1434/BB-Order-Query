@@ -25,8 +25,8 @@ public class SubscriptionService {
     private final SubscriptionReader subscriptionReader;
     private final SubscriptionManager subscriptionManager;
 
-    public Subscription createSubscription(ProductInfoDto productInfo, SubscriptionCreateDto subscriptionCreateDto) {
-        return subscriptionCreator.create(productInfo, subscriptionCreateDto);
+    public Subscription createSubscription(SubscriptionCreateDto subscriptionCreateDto) {
+        return subscriptionCreator.create(subscriptionCreateDto);
     }
 
     public List<SubscriptionForUserDto> getSubscriptionsOfUser(Long userId) {
@@ -48,6 +48,10 @@ public class SubscriptionService {
         return SubscriptionDetailDto.fromEntity(subscriptionReader.read(subscriptionId));
     }
 
+    public List<Subscription> getSubscriptionByStoreId(Long storeId) {
+        return subscriptionReader.readByStoreId(storeId);
+    }
+
     public void updateSubscriptionDate(String subscriptionId, LocalDate nextDeliveryDate, LocalDate nextPaymentDate) {
         Subscription subscription = subscriptionReader.read(subscriptionId);
         subscriptionManager.updateNextDeliveryDate(subscription, nextDeliveryDate, nextPaymentDate);
@@ -67,8 +71,9 @@ public class SubscriptionService {
         List<Long> subscriptionIds = subscriptionReader.readByUserId(userId)
                 .stream()
                 .map(Subscription::getStoreId)
-                .toList();
+                .collect(Collectors.toList());
 
         return storeIds.stream().collect(Collectors.toMap(id -> id, subscriptionIds::contains));
     }
+
 }

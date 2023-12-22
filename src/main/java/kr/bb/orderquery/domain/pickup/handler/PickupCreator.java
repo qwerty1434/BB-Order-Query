@@ -19,7 +19,7 @@ import java.util.UUID;
 public class PickupCreator {
     private final PickupRepository pickupRepository;
 
-    public Pickup create(StoreNameAndAddressDto storeAddress, ProductInfoDto productInfoDto, PickupCreateDto pickupCreateDto) {
+    public Pickup create(StoreNameAndAddressDto storeAddress, PickupCreateDto pickupCreateDto) {
         Pickup pickup = Pickup.builder()
                 .pickupReservationId(pickupCreateDto.getPickupReservationId())
                 .pickupDateTime(combineDateAndTime(pickupCreateDto.getPickupDate(), pickupCreateDto.getPickupTime()))
@@ -30,9 +30,9 @@ public class PickupCreator {
                 .storeId(pickupCreateDto.getStoreId())
                 .storeAddress(storeAddress.getStoreAddress())
                 .storeName(storeAddress.getStoreName())
-                .productThumbnail(productInfoDto.getProductThumbnail())
-                .productName(productInfoDto.getProductName())
-                .unitPrice(productInfoDto.getUnitPrice())
+                .productThumbnail(pickupCreateDto.getProductThumbnail())
+                .productName(pickupCreateDto.getProductName())
+                .unitPrice(pickupCreateDto.getUnitPrice())
                 .ordererName(pickupCreateDto.getOrdererName())
                 .ordererPhoneNumber(pickupCreateDto.getOrdererPhoneNumber())
                 .ordererEmail(pickupCreateDto.getOrdererEmail())

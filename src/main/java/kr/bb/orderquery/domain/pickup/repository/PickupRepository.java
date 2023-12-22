@@ -9,6 +9,7 @@ import java.util.List;
 
 @EnableScan
 public interface PickupRepository extends CrudRepository<Pickup, String> {
+    List<Pickup> findAllByStoreId(Long storeId);
     List<Pickup> findAllByUserIdOrderByPickupDateTimeDesc(Long userId);
     List<Pickup> findAllByStoreIdAndPickupDate(Long storeId, String pickupDate);
 }

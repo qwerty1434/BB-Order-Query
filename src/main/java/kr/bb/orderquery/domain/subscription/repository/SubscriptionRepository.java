@@ -8,7 +8,7 @@ import java.util.List;
 
 @EnableScan
 public interface SubscriptionRepository extends CrudRepository<Subscription, String> {
+    List<Subscription> findByStoreId(Long storeId);
     List<Subscription> findAllByUserIdOrderByNextPaymentDateDesc(Long userId);
-
     List<Subscription> findAllByStoreIdAndNextDeliveryDate(Long storeId, String nextDeliveryDate);
 }

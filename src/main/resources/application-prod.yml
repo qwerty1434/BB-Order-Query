@@ -5,7 +5,7 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   application:
-    name: order-query-service
+    name: orderquery-service
   config:
     activate:
       on-profile: prod
