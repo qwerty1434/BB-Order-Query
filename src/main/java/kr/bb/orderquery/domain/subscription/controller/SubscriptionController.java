@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class SubscriptionController {
     private final SubscriptionFacade subscriptionFacade;
 
-    @GetMapping("store-subscriptions")
+    @GetMapping("/store-subscriptions")
     public CommonResponse<SubscriptionsForMypageResponse> subscriptionsForMypage(@RequestHeader(value = "userId") Long userId) {
         return CommonResponse.success(subscriptionFacade.getSubscriptionsOfUser(userId));
     }

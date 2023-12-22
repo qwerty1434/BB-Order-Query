@@ -8,7 +8,7 @@ import com.amazonaws.services.dynamodbv2.model.Projection;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import kr.bb.orderquery.AbstractContainer;
-import kr.bb.orderquery.client.dto.ProductInfoDto;
+import bloomingblooms.domain.product.ProductInfoDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForDateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForUserDto;
@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -141,6 +142,28 @@ class SubscriptionServiceTest extends AbstractContainer {
 
     }
 
+    @DisplayName("해당 유저의 가게 구독여부를 반환한다")
+    @Test
+    void getSubscriptionStatuses() {
+        // given
+        Long userId = 1L;
+
+        Subscription s1 = createSubscriptionWithUserIdAndStoreId(userId, 1L);
+        Subscription s2 = createSubscriptionWithUserIdAndStoreId(userId, 2L);
+        subscriptionRepository.saveAll(List.of(s1,s2));
+
+        List<Long> storeIds = List.of(1L,2L,3L);
+
+        // when
+        Map<Long, Boolean> result = subscriptionService.getSubscriptionStatuses(userId, storeIds);
+
+        // then
+        assertThat(result.get(1L)).isTrue();
+        assertThat(result.get(2L)).isTrue();
+        assertThat(result.get(3L)).isFalse();
+    }
+
+
 
 
 
@@ -149,6 +172,7 @@ class SubscriptionServiceTest extends AbstractContainer {
                 .productName("장미 바구니")
                 .productThumbnail("https://image_url")
                 .unitPrice(1_000L)
+                .storeId(1L)
                 .build();
     }
 
@@ -185,6 +209,33 @@ class SubscriptionServiceTest extends AbstractContainer {
                 .subscriptionId(UUID.randomUUID().toString())
                 .userId(userId)
                 .storeId(1L)
+                .subscriptionCode("구독 코드")
+                .productName("장미 바구니")
+                .productThumbnail("https://image_url")
+                .unitPrice(1_000L)
+                .quantity(10)
+                .ordererName("주문자 명")
+                .ordererPhoneNumber("주문자 전화번호")
+                .ordererEmail("주문자 이메일")
+                .recipientName("수령자 명")
+                .recipientPhoneNumber("수령자 전화번호")
+                .deliveryAddress("배송지")
+                .paymentDateTime(LocalDateTime.now())
+                .nextDeliveryDate(LocalDate.now().plusMonths(1).toString())
+                .nextPaymentDate(LocalDate.now().plusMonths(1))
+                .totalOrderPrice(10_010L)
+                .totalDiscountPrice(10L)
+                .deliveryPrice(100L)
+                .actualPrice(10_200L)
+                .reviewStatus("REVIEW_READY")
+                .isUnsubscribed(false)
+                .build();
+    }
+    private Subscription createSubscriptionWithUserIdAndStoreId(Long userId, Long storeId){
+        return Subscription.builder()
+                .subscriptionId(UUID.randomUUID().toString())
+                .userId(userId)
+                .storeId(storeId)
                 .subscriptionCode("구독 코드")
                 .productName("장미 바구니")
                 .productThumbnail("https://image_url")

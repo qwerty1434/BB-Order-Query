@@ -4,7 +4,7 @@ import bloomingblooms.domain.StatusChangeDto;
 import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import bloomingblooms.domain.subscription.SubscriptionDateDto;
 import kr.bb.orderquery.client.ProductFeignClient;
-import kr.bb.orderquery.client.dto.ProductInfoDto;
+import bloomingblooms.domain.product.ProductInfoDto;
 import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsForDateResponse;
 import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsForMypageResponse;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
@@ -16,6 +16,9 @@ import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -60,6 +63,10 @@ public class SubscriptionFacade {
 
     public SubscriptionDetailDto getSubscriptionDetail(String subscriptionId) {
         return subscriptionService.getSubscription(subscriptionId);
+    }
+
+    public Map<Long,Boolean> getSubscriptionStatuses(Long userId, List<Long> storeIds) {
+        return subscriptionService.getSubscriptionStatuses(userId, storeIds);
     }
 
 }

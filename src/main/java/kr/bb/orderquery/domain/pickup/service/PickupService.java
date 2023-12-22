@@ -1,8 +1,8 @@
 package kr.bb.orderquery.domain.pickup.service;
 
 import bloomingblooms.domain.pickup.PickupCreateDto;
-import kr.bb.orderquery.client.dto.ProductInfoDto;
-import kr.bb.orderquery.client.dto.StoreInfoDto;
+import bloomingblooms.domain.product.ProductInfoDto;
+import bloomingblooms.domain.store.StoreNameAndAddressDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupsForDateDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupsInMypageDto;
@@ -24,7 +24,7 @@ public class PickupService {
     private final PickupReader pickupReader;
     private final PickupManager pickupManager;
 
-    public Pickup createPickup(StoreInfoDto storeAddress, ProductInfoDto productInfo, PickupCreateDto pickupCreateDto) {
+    public Pickup createPickup(StoreNameAndAddressDto storeAddress, ProductInfoDto productInfo, PickupCreateDto pickupCreateDto) {
         return pickupCreator.create(storeAddress, productInfo, pickupCreateDto);
     }
 

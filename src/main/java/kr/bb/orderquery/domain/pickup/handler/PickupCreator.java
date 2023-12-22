@@ -1,8 +1,8 @@
 package kr.bb.orderquery.domain.pickup.handler;
 
 import bloomingblooms.domain.pickup.PickupCreateDto;
-import kr.bb.orderquery.client.dto.ProductInfoDto;
-import kr.bb.orderquery.client.dto.StoreInfoDto;
+import bloomingblooms.domain.store.StoreNameAndAddressDto;
+import bloomingblooms.domain.product.ProductInfoDto;
 import kr.bb.orderquery.domain.pickup.entity.Pickup;
 import kr.bb.orderquery.domain.pickup.repository.PickupRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.UUID;
 public class PickupCreator {
     private final PickupRepository pickupRepository;
 
-    public Pickup create(StoreInfoDto storeAddress, ProductInfoDto productInfoDto, PickupCreateDto pickupCreateDto) {
+    public Pickup create(StoreNameAndAddressDto storeAddress, ProductInfoDto productInfoDto, PickupCreateDto pickupCreateDto) {
         Pickup pickup = Pickup.builder()
                 .pickupReservationId(pickupCreateDto.getPickupReservationId())
                 .pickupDateTime(combineDateAndTime(pickupCreateDto.getPickupDate(), pickupCreateDto.getPickupTime()))
