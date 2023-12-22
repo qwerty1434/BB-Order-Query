@@ -25,8 +25,8 @@ public class SubscriptionService {
     private final SubscriptionReader subscriptionReader;
     private final SubscriptionManager subscriptionManager;
 
-    public Subscription createSubscription(ProductInfoDto productInfo, SubscriptionCreateDto subscriptionCreateDto) {
-        return subscriptionCreator.create(productInfo, subscriptionCreateDto);
+    public Subscription createSubscription(SubscriptionCreateDto subscriptionCreateDto) {
+        return subscriptionCreator.create(subscriptionCreateDto);
     }
 
     public List<SubscriptionForUserDto> getSubscriptionsOfUser(Long userId) {

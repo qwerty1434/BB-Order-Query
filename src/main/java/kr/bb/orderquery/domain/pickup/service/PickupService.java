@@ -24,8 +24,8 @@ public class PickupService {
     private final PickupReader pickupReader;
     private final PickupManager pickupManager;
 
-    public Pickup createPickup(StoreNameAndAddressDto storeAddress, ProductInfoDto productInfo, PickupCreateDto pickupCreateDto) {
-        return pickupCreator.create(storeAddress, productInfo, pickupCreateDto);
+    public Pickup createPickup(StoreNameAndAddressDto storeAddress, PickupCreateDto pickupCreateDto) {
+        return pickupCreator.create(storeAddress, pickupCreateDto);
     }
 
     public List<PickupsInMypageDto> getPickupsForUser(Long userId) {

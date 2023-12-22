@@ -67,13 +67,12 @@ class SubscriptionServiceTest extends AbstractContainer {
     @Test
     void createSubscription() {
         // given
-        ProductInfoDto productInfoDto = createProductInfoDto();
         String subscriptionId = UUID.randomUUID().toString();
         SubscriptionCreateDto subscriptionCreateDto = createSubscriptionCreateDto(subscriptionId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
         // when
-        subscriptionService.createSubscription(productInfoDto, subscriptionCreateDto);
+        subscriptionService.createSubscription(subscriptionCreateDto);
 
         // then
         Subscription result = subscriptionRepository.findById(subscriptionId).get();
@@ -167,15 +166,6 @@ class SubscriptionServiceTest extends AbstractContainer {
 
 
 
-    private ProductInfoDto createProductInfoDto() {
-        return ProductInfoDto.builder()
-                .productName("장미 바구니")
-                .productThumbnail("https://image_url")
-                .unitPrice(1_000L)
-                .storeId(1L)
-                .build();
-    }
-
     private SubscriptionCreateDto createSubscriptionCreateDto(String subscriptionId) {
         return SubscriptionCreateDto.builder()
                 .subscriptionId(subscriptionId)
@@ -201,6 +191,10 @@ class SubscriptionServiceTest extends AbstractContainer {
                 .actualPrice(10_200L)
                 .reviewStatus("REVIEW_READY")
                 .deliveryRequest("요청사항")
+                .productName("장미 바구니")
+                .productThumbnail("https://image_url")
+                .unitPrice(1_000L)
+                .storeId(1L)
                 .build();
     }
 

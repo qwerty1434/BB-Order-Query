@@ -11,3 +11,6 @@ cloud:
     credentials:
       ACCESS_KEY_ID: "test"
       SECRET_ACCESS_KEY: "test"
+endpoint:
+  product-service: localhost:8800
+  store-service: localhost:8500

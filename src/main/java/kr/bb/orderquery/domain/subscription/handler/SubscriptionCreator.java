@@ -14,15 +14,15 @@ import java.util.UUID;
 public class SubscriptionCreator {
     private final SubscriptionRepository subscriptionRepository;
 
-    public Subscription create(ProductInfoDto productInfo, SubscriptionCreateDto subscriptionCreateDto) {
+    public Subscription create(SubscriptionCreateDto subscriptionCreateDto) {
         Subscription subscription = Subscription.builder()
                 .subscriptionId(subscriptionCreateDto.getSubscriptionId())
                 .subscriptionCode(UUID.randomUUID().toString())
                 .userId(subscriptionCreateDto.getUserId())
-                .storeId(productInfo.getStoreId())
-                .productThumbnail(productInfo.getProductThumbnail())
-                .productName(productInfo.getProductName())
-                .unitPrice(productInfo.getUnitPrice())
+                .storeId(subscriptionCreateDto.getStoreId())
+                .productThumbnail(subscriptionCreateDto.getProductThumbnail())
+                .productName(subscriptionCreateDto.getProductName())
+                .unitPrice(subscriptionCreateDto.getUnitPrice())
                 .quantity(subscriptionCreateDto.getQuantity())
                 .ordererName(subscriptionCreateDto.getOrdererName())
                 .ordererPhoneNumber(subscriptionCreateDto.getOrdererPhoneNumber())

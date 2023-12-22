@@ -73,12 +73,11 @@ class PickupServiceTest extends AbstractContainer {
                 .storeName("가게명")
                 .storeAddress("가게주소")
                 .build();
-        ProductInfoDto productInfoDto = createProductInfoDto();
         String pickupReservationId = UUID.randomUUID().toString();
         PickupCreateDto pickupCreateDto = createPickupCreateDto(pickupReservationId);
 
         // when
-        Pickup pickup = pickupService.createPickup(storeInfo, productInfoDto, pickupCreateDto);
+        Pickup pickup = pickupService.createPickup(storeInfo, pickupCreateDto);
 
         // then
         Pickup result = pickupRepository.findById(pickup.getPickupReservationId()).get();
@@ -94,7 +93,7 @@ class PickupServiceTest extends AbstractContainer {
                         combineDateAndTime(pickupCreateDto.getPickupDate(), pickupCreateDto.getPickupTime()),
                         pickupCreateDto.getPickupDate().toString(),
                         pickupCreateDto.getUserId(),
-                        productInfoDto.getProductName()
+                        pickupCreateDto.getProductName()
                 );
 
     }
@@ -200,14 +199,6 @@ class PickupServiceTest extends AbstractContainer {
     }
 
 
-    private ProductInfoDto createProductInfoDto() {
-        return ProductInfoDto.builder()
-                .productName("장미 바구니")
-                .productThumbnail("https://image_url")
-                .unitPrice(1_000L)
-                .build();
-    }
-
     private PickupCreateDto createPickupCreateDto(String pickupReservationId) {
         return PickupCreateDto.builder()
                 .pickupReservationId(pickupReservationId)
@@ -227,6 +218,9 @@ class PickupServiceTest extends AbstractContainer {
                 .reservationStatus("RESERVATION_READY")
                 .reviewStatus("REVIEW_READY")
                 .cardStatus("CARD_READY")
+                .productName("장미 바구니")
+                .productThumbnail("https://image_url")
+                .unitPrice(1_000L)
                 .build();
     }
 
