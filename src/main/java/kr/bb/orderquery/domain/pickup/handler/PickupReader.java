@@ -25,4 +25,8 @@ public class PickupReader {
     public Pickup read(String pickup) {
         return pickupRepository.findById(pickup).orElseThrow(PickupNotFoundException::new);
     }
+
+    public List<Pickup> readByStoreId(Long storeId) {
+        return pickupRepository.findAllByStoreId(storeId);
+    }
 }

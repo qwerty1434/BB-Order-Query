@@ -24,4 +24,8 @@ public class SubscriptionReader {
     public Subscription read(String subscriptionId) {
         return subscriptionRepository.findById(subscriptionId).orElseThrow(SubscriptionNotFoundException::new);
     }
+
+    public List<Subscription> readByStoreId(Long storeId) {
+        return subscriptionRepository.findByStoreId(storeId);
+    }
 }

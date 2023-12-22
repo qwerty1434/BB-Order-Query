@@ -337,32 +337,32 @@ class PickupServiceTest extends AbstractContainer {
     }
 
     private Pickup createPickupWithStoreIdAndPickupDate(Long storeId, LocalDate pickupDate) {
-            return Pickup.builder()
-                    .pickupReservationId(UUID.randomUUID().toString())
-                    .reservationCode("픽업예약 코드")
-                    .userId(1L)
-                    .pickupDateTime(LocalDateTime.now())
-                    .pickupDate(pickupDate.toString())
-                    .pickupTime("00:00")
-                    .storeId(storeId)
-                    .storeAddress("가게주소")
-                    .productThumbnail("상품 썸네일")
-                    .productName("상품명")
-                    .unitPrice(1_000L)
-                    .ordererName("주문자 명")
-                    .ordererPhoneNumber("주문자 전화번호")
-                    .ordererEmail("주문자 이메일")
-                    .quantity(10)
-                    .totalOrderPrice(10_010L)
-                    .totalDiscountPrice(10L)
-                    .deliveryPrice(100L)
-                    .actualPrice(10_200L)
-                    .paymentDateTime(LocalDateTime.now())
-                    .reservationStatus("RESERVATION_READY")
-                    .reviewStatus("REVIEW_READY")
-                    .cardStatus("CARD_READY")
-                    .build();
-        }
+        return Pickup.builder()
+                .pickupReservationId(UUID.randomUUID().toString())
+                .reservationCode("픽업예약 코드")
+                .userId(1L)
+                .pickupDateTime(LocalDateTime.now())
+                .pickupDate(pickupDate.toString())
+                .pickupTime("00:00")
+                .storeId(storeId)
+                .storeAddress("가게주소")
+                .productThumbnail("상품 썸네일")
+                .productName("상품명")
+                .unitPrice(1_000L)
+                .ordererName("주문자 명")
+                .ordererPhoneNumber("주문자 전화번호")
+                .ordererEmail("주문자 이메일")
+                .quantity(10)
+                .totalOrderPrice(10_010L)
+                .totalDiscountPrice(10L)
+                .deliveryPrice(100L)
+                .actualPrice(10_200L)
+                .paymentDateTime(LocalDateTime.now())
+                .reservationStatus("RESERVATION_READY")
+                .reviewStatus("REVIEW_READY")
+                .cardStatus("CARD_READY")
+                .build();
+    }
 
     private LocalDateTime combineDateAndTime(LocalDate date, String time) {
         LocalTime localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));

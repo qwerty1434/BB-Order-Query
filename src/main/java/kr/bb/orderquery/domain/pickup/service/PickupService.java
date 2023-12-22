@@ -47,6 +47,10 @@ public class PickupService {
         return PickupDetailDto.fromEntity(pickupReader.read(pickupReservationId));
     }
 
+    public List<Pickup> getPickupByStoreId(Long storeId) {
+        return pickupReader.readByStoreId(storeId);
+    }
+
     public void updateCardStatus(String subscriptionId, String cardStatus) {
         Pickup pickup = pickupReader.read(subscriptionId);
         pickupManager.changeCardStatus(pickup, cardStatus);

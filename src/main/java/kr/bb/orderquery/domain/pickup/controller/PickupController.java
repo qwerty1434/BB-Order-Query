@@ -1,6 +1,7 @@
 package kr.bb.orderquery.domain.pickup.controller;
 
 import bloomingblooms.response.CommonResponse;
+import kr.bb.orderquery.domain.pickup.controller.response.PickAndSubResponse;
 import kr.bb.orderquery.domain.pickup.controller.response.PickupsForDateResponse;
 import kr.bb.orderquery.domain.pickup.controller.response.PickupsInMypageResponse;
 import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
@@ -31,6 +32,11 @@ public class PickupController {
     @GetMapping("/reservations/{reservationId}")
     public CommonResponse<PickupDetailDto> pickupDetail(@PathVariable String reservationId) {
         return CommonResponse.success(pickupFacade.getPickupDetail(reservationId));
+    }
+
+    @GetMapping("/{storeId}/reservations/subscriptions")
+    public CommonResponse<PickAndSubResponse> pickAndSubForCalendar(@PathVariable Long storeId) {
+        return CommonResponse.success(pickupFacade.getDataForCalendar(storeId));
     }
 
 }
