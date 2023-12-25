@@ -13,18 +13,15 @@ import kr.bb.orderquery.domain.pickup.service.PickupService;
 import kr.bb.orderquery.domain.subscription.entity.Subscription;
 import kr.bb.orderquery.domain.subscription.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.cloud.aws.messaging.listener.Acknowledgment;
 import org.springframework.cloud.aws.messaging.listener.SqsMessageDeletionPolicy;
 import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
+import org.springframework.data.domain.Pageable;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -63,8 +60,8 @@ public class PickupFacade {
         ack.acknowledge();
     }
 
-    public PickupsInMypageResponse getPickupsOfUser(Long userId) {
-        return PickupsInMypageResponse.from(pickupService.getPickupsForUser(userId));
+    public PickupsInMypageResponse getPickupsOfUser(Long userId, Pageable pageable) {
+        return PickupsInMypageResponse.from(pickupService.getPickupsForUser(userId, pageable));
     }
 
     public PickupsForDateResponse getPickupsForDate(Long storeId, String pickupDate) {
