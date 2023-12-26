@@ -7,6 +7,7 @@ import kr.bb.orderquery.domain.pickup.controller.response.PickupsInMypageRespons
 import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
 import kr.bb.orderquery.domain.pickup.facade.PickupFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -17,9 +18,8 @@ public class PickupController {
     private final PickupFacade pickupFacade;
 
     @GetMapping("/reservations")
-    public CommonResponse<PickupsInMypageResponse> myPickups(@RequestHeader(value = "userId") Long userId) {
-        // TODO : 페이지네이션
-        return CommonResponse.success(pickupFacade.getPickupsOfUser(userId));
+    public CommonResponse<PickupsInMypageResponse> myPickups(@RequestHeader(value = "userId") Long userId, Pageable pageable) {
+        return CommonResponse.success(pickupFacade.getPickupsOfUser(userId, pageable));
     }
 
     @GetMapping("/{storeId}/reservations")

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 @Getter
@@ -14,10 +15,12 @@ import java.util.List;
 @AllArgsConstructor
 public class PickupsInMypageResponse {
     private List<PickupsInMypageDto> data;
+    private Long totalCnt;
 
-    public static PickupsInMypageResponse from(List<PickupsInMypageDto> data) {
+    public static PickupsInMypageResponse from(Page<PickupsInMypageDto> pageData) {
         return PickupsInMypageResponse.builder()
-                .data(data)
+                .data(pageData.getContent())
+                .totalCnt(pageData.getTotalElements())
                 .build();
     }
 }

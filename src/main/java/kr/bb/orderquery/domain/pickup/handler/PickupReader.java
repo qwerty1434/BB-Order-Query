@@ -4,6 +4,8 @@ import kr.bb.orderquery.domain.pickup.entity.Pickup;
 import kr.bb.orderquery.domain.pickup.exception.PickupNotFoundException;
 import kr.bb.orderquery.domain.pickup.repository.PickupRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,8 +16,8 @@ import java.util.List;
 public class PickupReader {
     private final PickupRepository pickupRepository;
 
-    public List<Pickup> readByUserId(Long userId) {
-        return pickupRepository.findAllByUserIdOrderByPickupDateTimeDesc(userId);
+    public Page<Pickup> readByUserId(Long userId, Pageable pageable) {
+        return pickupRepository.findAllByUserIdOrderByPickupDateTimeDesc(userId, pageable);
     }
 
     public List<Pickup> readByStoreIdAndPickupDate(Long storeId, String pickupDate) {
