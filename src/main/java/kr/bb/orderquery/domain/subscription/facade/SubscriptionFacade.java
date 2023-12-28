@@ -3,6 +3,8 @@ package kr.bb.orderquery.domain.subscription.facade;
 import bloomingblooms.domain.StatusChangeDto;
 import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import bloomingblooms.domain.subscription.SubscriptionDateDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.bb.orderquery.client.ProductFeignClient;
 import bloomingblooms.domain.product.ProductInfoDto;
 import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsForDateResponse;
@@ -25,6 +27,7 @@ import java.util.Map;
 public class SubscriptionFacade {
     private final SubscriptionService subscriptionService;
     private final ProductFeignClient productFeignClient;
+    private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = "subscription-create", groupId = "sub-create")
     public void create(SubscriptionCreateDto subscriptionCreateDto) {
@@ -46,7 +49,8 @@ public class SubscriptionFacade {
         value = "${cloud.aws.sqs.subscription-review-status-queue.name}",
         deletionPolicy = SqsMessageDeletionPolicy.NEVER
     )
-    public void updateReviewStatus(@Payload StatusChangeDto statusChangeDto, Acknowledgment ack) {
+    public void updateReviewStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
+        StatusChangeDto statusChangeDto = objectMapper.readValue(message, StatusChangeDto.class);
         subscriptionService.updateReviewStatus(statusChangeDto.getId(), statusChangeDto.getStatus());
         ack.acknowledge();
     }

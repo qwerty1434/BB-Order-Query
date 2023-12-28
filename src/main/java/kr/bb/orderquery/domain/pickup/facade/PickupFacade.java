@@ -3,6 +3,8 @@ package kr.bb.orderquery.domain.pickup.facade;
 import bloomingblooms.domain.StatusChangeDto;
 import bloomingblooms.domain.pickup.PickupCreateDto;
 import bloomingblooms.domain.store.StoreNameAndAddressDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.bb.orderquery.client.StoreFeignClient;
 import kr.bb.orderquery.domain.pickup.controller.response.PickAndSubResponse;
 import kr.bb.orderquery.domain.pickup.controller.response.PickupsForDateResponse;
@@ -29,6 +31,7 @@ public class PickupFacade {
     private final PickupService pickupService;
     private final SubscriptionService subscriptionService;
     private final StoreFeignClient storeFeignClient;
+    private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = "pickup-create", groupId = "pick-create")
     public void create(PickupCreateDto pickupCreateDto) {
@@ -46,7 +49,8 @@ public class PickupFacade {
         value = "${cloud.aws.sqs.pickup-card-status-queue.name}",
         deletionPolicy = SqsMessageDeletionPolicy.NEVER
     )
-    public void updateCardStatus(@Payload StatusChangeDto statusChangeDto, Acknowledgment ack) {
+    public void updateCardStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
+        StatusChangeDto statusChangeDto = objectMapper.readValue(message, StatusChangeDto.class);
         pickupService.updateCardStatus(statusChangeDto.getId(), statusChangeDto.getStatus());
         ack.acknowledge();
     }
@@ -55,7 +59,8 @@ public class PickupFacade {
         value = "${cloud.aws.sqs.pickup-review-status-queue.name}",
         deletionPolicy = SqsMessageDeletionPolicy.NEVER
     )
-    public void updateReviewStatus(@Payload StatusChangeDto statusChangeDto, Acknowledgment ack) {
+    public void updateReviewStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
+        StatusChangeDto statusChangeDto = objectMapper.readValue(message, StatusChangeDto.class);
         pickupService.updateReviewStatus(statusChangeDto.getId(), statusChangeDto.getStatus());
         ack.acknowledge();
     }
