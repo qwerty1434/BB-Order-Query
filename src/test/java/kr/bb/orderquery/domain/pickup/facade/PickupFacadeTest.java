@@ -31,6 +31,8 @@ import java.util.UUID;
 @Testcontainers
 @SpringBootTest
 class PickupFacadeTest extends AbstractContainer {
+    @MockBean
+    SimpleMessageListenerContainer simpleMessageListenerContainer;
     @Autowired
     private PickupFacade pickupFacade;
     @Autowired
