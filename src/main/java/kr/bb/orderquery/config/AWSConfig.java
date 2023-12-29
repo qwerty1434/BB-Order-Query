@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 
 @Configuration
-public class AWSConfiguration {
+public class AWSConfig {
     @Value("${cloud.aws.credentials.ACCESS_KEY_ID}")
     private String accessKeyId;
 
@@ -28,6 +29,7 @@ public class AWSConfiguration {
         return () -> awsBasicCredentials;
     }
 
+    @Profile({"!test"})
     @Primary
     @Bean
     public AmazonSQSAsync amazonSQSAsync() {
