@@ -29,7 +29,6 @@ public class AWSConfig {
         return () -> awsBasicCredentials;
     }
 
-    @Profile({"!test"})
     @Primary
     @Bean
     public AmazonSQSAsync amazonSQSAsync() {

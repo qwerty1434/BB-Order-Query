@@ -1,10 +1,10 @@
 spring:
+  config:
+    activate:
+      on-profile: "test"
   cloud:
     config:
       enabled: false
-  config:
-    activate:
-      on-profile: test
 cloud:
   aws:
     stack:

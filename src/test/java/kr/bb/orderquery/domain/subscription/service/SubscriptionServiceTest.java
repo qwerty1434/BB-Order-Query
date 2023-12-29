@@ -20,6 +20,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.aws.messaging.listener.SimpleMessageListenerContainer;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -35,6 +37,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 @SpringBootTest
 class SubscriptionServiceTest extends AbstractContainer {
+    @MockBean
+    SimpleMessageListenerContainer simpleMessageListenerContainer;
     @Autowired
     private SubscriptionService subscriptionService;
     @Autowired
