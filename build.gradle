@@ -43,7 +43,9 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
 	// sqs
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.4.RELEASE'
 	implementation 'org.springframework.cloud:spring-cloud-aws-messaging:2.2.4.RELEASE'
+	implementation 'software.amazon.awssdk:sns:2.21.37'
 
 	// dynamoDB
 	implementation 'io.github.boostchicken:spring-data-dynamodb:5.2.5'
@@ -53,7 +55,7 @@ dependencies {
 	testImplementation "org.junit.jupiter:junit-jupiter:5.8.1"
 	testImplementation "org.testcontainers:junit-jupiter:1.16.3"
 
-	implementation group: 'io.github.lotteon-maven', name: 'blooming-blooms-utils', version: '202312220229'
+	implementation group: 'io.github.lotteon-maven', name: 'blooming-blooms-utils', version: '202312280417'
 }
 
 dependencyManagement {
