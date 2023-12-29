@@ -41,8 +41,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 @SpringBootTest
 class PickupServiceTest extends AbstractContainer {
-    @MockBean
-    SimpleMessageListenerContainer simpleMessageListenerContainer;
     @Autowired
     private PickupService pickupService;
     @Autowired

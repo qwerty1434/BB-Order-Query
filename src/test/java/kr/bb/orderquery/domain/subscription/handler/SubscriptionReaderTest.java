@@ -30,8 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 @SpringBootTest
 class SubscriptionReaderTest extends AbstractContainer {
-    @MockBean
-    SimpleMessageListenerContainer simpleMessageListenerContainer;
+
     @Autowired
     private SubscriptionReader subscriptionReader;
     @Autowired
