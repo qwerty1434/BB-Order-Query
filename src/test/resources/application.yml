@@ -2,8 +2,9 @@ spring:
   cloud:
     config:
       enabled: false
-  profiles:
-    active: test
+  config:
+    activate:
+      on-profile: test
 cloud:
   aws:
     stack:
