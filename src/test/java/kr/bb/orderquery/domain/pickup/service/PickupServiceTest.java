@@ -40,6 +40,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 @SpringBootTest
+@ActiveProfiles("test")
 class PickupServiceTest extends AbstractContainer {
     @MockBean
     SimpleMessageListenerContainer simpleMessageListenerContainer;

@@ -28,7 +28,7 @@ public class DynamoDbConfig {
     @Value("${aws.dynamodb.endpoint:dynamodb.ap-northeast-2.amazonaws.com}")
     private String amazonDynamoDbEndpoint;
 
-    @Value("${cloud.aws.region.static}")
+    @Value("${aws.region}")
     private String amazonDynamoDbRegion;
 
     @Value("${cloud.aws.credentials.ACCESS_KEY_ID}")
