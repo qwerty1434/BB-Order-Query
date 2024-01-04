@@ -26,5 +26,6 @@ endpoint:
   store-service: ""
 
 aws:
+  region: ""
   dynamodb:
     endpoint: ""
