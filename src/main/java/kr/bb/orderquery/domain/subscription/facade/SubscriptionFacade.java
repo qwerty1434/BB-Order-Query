@@ -3,6 +3,7 @@ package kr.bb.orderquery.domain.subscription.facade;
 import bloomingblooms.domain.StatusChangeDto;
 import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import bloomingblooms.domain.subscription.SubscriptionDateDto;
+import bloomingblooms.domain.subscription.SubscriptionDateDtoList;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.bb.orderquery.client.ProductFeignClient;
@@ -26,7 +27,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SubscriptionFacade {
     private final SubscriptionService subscriptionService;
-    private final ProductFeignClient productFeignClient;
     private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = "subscription-create", groupId = "sub-create")
@@ -35,9 +35,10 @@ public class SubscriptionFacade {
     }
 
     @KafkaListener(topics = "subscription-date-update", groupId = "sub-update")
-    public void updateSubscriptionDate(SubscriptionDateDto subscriptionDateDto) {
-        subscriptionService.updateSubscriptionDate(subscriptionDateDto.getSubscriptionId(),
-                subscriptionDateDto.getNextDeliveryDate(), subscriptionDateDto.getNextPaymentDate());
+    public void updateSubscriptionDate(SubscriptionDateDtoList subscriptionDateDtoList) {
+        subscriptionDateDtoList.getSubscriptionDateDtoList()
+                        .forEach(subscriptionDateDto -> subscriptionService.updateSubscriptionDate(subscriptionDateDto.getSubscriptionId(),
+                                subscriptionDateDto.getNextDeliveryDate(), subscriptionDateDto.getNextPaymentDate()));
     }
 
     @KafkaListener(topics= "unsubscribe", groupId = "unsub")
