@@ -6,7 +6,7 @@ import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.Projection;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
-import kr.bb.orderquery.AbstractContainer;
+import kr.bb.orderquery.DynamoEnv;
 import kr.bb.orderquery.domain.subscription.entity.Subscription;
 import kr.bb.orderquery.domain.subscription.repository.SubscriptionRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.aws.messaging.listener.SimpleMessageListenerContainer;
-import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
@@ -29,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 @SpringBootTest
-class SubscriptionReaderTest extends AbstractContainer {
+class SubscriptionReaderTest extends DynamoEnv {
     @MockBean
     SimpleMessageListenerContainer simpleMessageListenerContainer;
     @Autowired

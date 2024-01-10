@@ -6,7 +6,7 @@ import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.Projection;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
-import kr.bb.orderquery.AbstractContainer;
+import kr.bb.orderquery.DynamoEnv;
 import kr.bb.orderquery.domain.pickup.controller.response.PickAndSubResponse;
 import kr.bb.orderquery.domain.pickup.entity.Pickup;
 import kr.bb.orderquery.domain.pickup.repository.PickupRepository;
@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.aws.messaging.listener.SimpleMessageListenerContainer;
-import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
@@ -30,7 +29,7 @@ import java.util.UUID;
 
 @Testcontainers
 @SpringBootTest
-class PickupFacadeTest extends AbstractContainer {
+class PickupFacadeTest extends DynamoEnv {
     @MockBean
     SimpleMessageListenerContainer simpleMessageListenerContainer;
     @Autowired
@@ -125,6 +124,7 @@ class PickupFacadeTest extends AbstractContainer {
                 .actualPrice(10_200L)
                 .reviewStatus("REVIEW_READY")
                 .isUnsubscribed(false)
+                .productId("p1")
                 .build();
     }
 
@@ -153,6 +153,7 @@ class PickupFacadeTest extends AbstractContainer {
                 .reservationStatus("RESERVATION_READY")
                 .reviewStatus("REVIEW_READY")
                 .cardStatus("CARD_READY")
+                .productId("p1")
                 .build();
     }
 

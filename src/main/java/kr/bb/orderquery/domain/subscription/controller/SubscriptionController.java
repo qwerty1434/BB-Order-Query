@@ -6,7 +6,6 @@ import kr.bb.orderquery.domain.subscription.controller.response.SubscriptionsFor
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.facade.SubscriptionFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;

@@ -1,6 +1,5 @@
 package kr.bb.orderquery.domain.subscription.service;
 
-import bloomingblooms.domain.product.ProductInfoDto;
 import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForDateDto;

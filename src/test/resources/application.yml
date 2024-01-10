@@ -26,6 +26,6 @@ endpoint:
   store-service: ""
 
 aws:
-  region: ""
+  region: "ap-northeast-2"
   dynamodb:
-    endpoint: ""
+    endpoint: "dynamodb.ap-northeast-2.amazonaws.com"
