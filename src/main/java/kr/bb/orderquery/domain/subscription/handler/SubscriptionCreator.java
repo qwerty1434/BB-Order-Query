@@ -1,7 +1,6 @@
 package kr.bb.orderquery.domain.subscription.handler;
 
 import bloomingblooms.domain.subscription.SubscriptionCreateDto;
-import bloomingblooms.domain.product.ProductInfoDto;
 import kr.bb.orderquery.domain.subscription.entity.Subscription;
 import kr.bb.orderquery.domain.subscription.repository.SubscriptionRepository;
 import lombok.RequiredArgsConstructor;

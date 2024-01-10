@@ -2,7 +2,6 @@ package kr.bb.orderquery.domain.pickup.handler;
 
 import bloomingblooms.domain.pickup.PickupCreateDto;
 import bloomingblooms.domain.store.StoreNameAndAddressDto;
-import bloomingblooms.domain.product.ProductInfoDto;
 import kr.bb.orderquery.domain.pickup.entity.Pickup;
 import kr.bb.orderquery.domain.pickup.repository.PickupRepository;
 import lombok.RequiredArgsConstructor;

@@ -7,8 +7,7 @@ import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.Projection;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
-import kr.bb.orderquery.AbstractContainer;
-import bloomingblooms.domain.product.ProductInfoDto;
+import kr.bb.orderquery.DynamoEnv;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForDateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForUserDto;
@@ -37,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 @SpringBootTest
 @ActiveProfiles("test")
-class SubscriptionServiceTest extends AbstractContainer {
+class SubscriptionServiceTest extends DynamoEnv {
     @MockBean
     SimpleMessageListenerContainer simpleMessageListenerContainer;
     @Autowired

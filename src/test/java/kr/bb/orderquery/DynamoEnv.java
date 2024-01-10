@@ -6,7 +6,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 
 @ActiveProfiles("test")
-public abstract class AbstractContainer {
+public abstract class DynamoEnv {
     static final String DYNAMODB_IMAGE = "amazon/dynamodb-local:2.1.0";
 
     static final GenericContainer DYNAMODB_CONTAINER;
