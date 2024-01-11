@@ -23,6 +23,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -66,7 +67,8 @@ public class PickupFacade {
     }
 
     public PickupsInMypageResponse getPickupsOfUser(Long userId, Pageable pageable) {
-        return PickupsInMypageResponse.from(pickupService.getPickupsForUser(userId, pageable));
+        LocalDate now = LocalDate.now();
+        return PickupsInMypageResponse.from(pickupService.getPickupsForUser(userId, pageable, now));
     }
 
     public PickupsForDateResponse getPickupsForDate(Long storeId, String pickupDate) {

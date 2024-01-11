@@ -3,6 +3,7 @@ package kr.bb.orderquery.domain.pickup.entity;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import kr.bb.orderquery.config.DynamoDbConfig;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamoDBTable(tableName="PickupReservation")
-public class Pickup {
+public class Pickup implements Comparable<Pickup>{
     @Id
     @DynamoDBHashKey(attributeName = "pickup_reservation_id")
     private String pickupReservationId;
@@ -92,4 +93,14 @@ public class Pickup {
     @DynamoDBAttribute(attributeName = "product_id")
     private String productId;
 
+    /**
+     * 픽업일이 동일하다면 픽업시간 내림차순 정렬
+     * 그렇지 않다면 픽업일시 기준 정렬
+     */
+    @Override
+    public int compareTo(@NotNull Pickup o) {
+        return (this.getPickupDate().equals(o.getPickupDate())) ?
+                o.pickupTime.compareTo(this.pickupTime) :
+                this.getPickupDateTime().compareTo(o.getPickupDateTime());
+    }
 }

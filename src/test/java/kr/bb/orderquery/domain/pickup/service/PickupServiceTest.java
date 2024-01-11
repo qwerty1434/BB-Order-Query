@@ -118,7 +118,7 @@ class PickupServiceTest extends DynamoEnv {
         pickupRepository.saveAll(List.of(p1,p2,p3,p4));
 
         // when
-        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,5))
+        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,5), LocalDate.now())
                 .getContent();
 
         // then
@@ -126,26 +126,31 @@ class PickupServiceTest extends DynamoEnv {
 
     }
 
-    @DisplayName("특정 유저의 픽업예약 목록은 픽업일 기준 내림차순으로 정렬되어 있다")
+    @DisplayName("특정 유저의 픽업예약 목록은 오늘 이후 예약들이 오름차순으로 먼저 등장한 뒤 오늘 이전 예약들이 내림차순으로 등장한다")
     @Test
     void pickupsInMypageAreSortedWithDesc() {
         // given
         Long userId = 1L;
         LocalDateTime now = LocalDateTime.of(LocalDate.of(2023,12,31), LocalTime.now());
-        Pickup p1 = createPickupWithPickupDate(userId, now);
-        Pickup p2 = createPickupWithPickupDate(userId, now.plusDays(2));
-        Pickup p3 = createPickupWithPickupDate(userId, now.minusDays(2));
-        pickupRepository.saveAll(List.of(p1,p2,p3));
+        Pickup p1 = createPickupWithPickupDate(userId, now.minusDays(2));
+        Pickup p2 = createPickupWithPickupDate(userId, now.minusDays(1));
+        Pickup p3 = createPickupWithPickupDate(userId, now);
+        Pickup p4 = createPickupWithPickupDate(userId, now.plusDays(1));
+        Pickup p5 = createPickupWithPickupDate(userId, now.plusDays(2));
+        pickupRepository.saveAll(List.of(p1,p2,p3,p4,p5));
 
         // when
-        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,5))
+        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,5),now.toLocalDate())
                 .getContent();
 
         // then
-        assertThat(pickupsForUser).hasSize(3)
+        assertThat(pickupsForUser).hasSize(5)
                 .extracting("pickupDate")
-                .containsExactly(now.toLocalDate().plusDays(2).toString(),
+                .containsExactly(
                         now.toLocalDate().toString(),
+                        now.toLocalDate().plusDays(1).toString(),
+                        now.toLocalDate().plusDays(2).toString(),
+                        now.toLocalDate().minusDays(1).toString(),
                         now.toLocalDate().minusDays(2).toString()
                 );
 
@@ -163,7 +168,7 @@ class PickupServiceTest extends DynamoEnv {
         pickupRepository.saveAll(List.of(p1,p2,p3));
 
         // when
-        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId,PageRequest.of(0,5))
+        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId,PageRequest.of(0,5),LocalDate.now())
                 .getContent();
 
         // then
