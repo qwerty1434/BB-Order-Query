@@ -15,9 +15,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.partitioningBy;
 
 @Service
 @RequiredArgsConstructor
@@ -30,9 +33,14 @@ public class PickupService {
         return pickupCreator.create(storeAddress, pickupCreateDto);
     }
 
-    public Page<PickupsInMypageDto> getPickupsForUser(Long userId, Pageable pageable) {
+
+
+    public Page<PickupsInMypageDto> getPickupsForUser(Long userId, Pageable pageable, LocalDate now) {
         Page<Pickup> pickups = pickupReader.readByUserId(userId, pageable);
-        List<PickupsInMypageDto> pickupsInMyPageDtos = pickups.stream()
+        List<Pickup> contents = pickups.getContent();
+        List<Pickup> sortedPickups = sortAroundNow(contents, now);
+
+        List<PickupsInMypageDto> pickupsInMyPageDtos = sortedPickups.stream()
                 .map(PickupsInMypageDto::fromEntity)
                 .collect(Collectors.toList());
         return new PageImpl<>(pickupsInMyPageDtos, pickups.getPageable(), pickups.getTotalElements());
@@ -69,5 +77,21 @@ public class PickupService {
         pickupManager.changeReservationStatus(pickup, reservationStatus);
     }
 
+    /*
+     * now포함 이후의 값은 오름차순, now이전값은 내림차순으로 정렬
+     * 오늘이 13일이고 데이터가 [11,12,13,14,15,16]이라면
+     * [13,14,15,16,12,11]로 정렬됩니다
+     */
+    private List<Pickup> sortAroundNow(List<Pickup> pickups, LocalDate now) {
+        Map<Boolean, List<Pickup>> collect = pickups.stream()
+                .collect(partitioningBy(pickup -> pickup.getPickupDateTime().toLocalDate().isBefore(now)));
+        List<Pickup> afterOrEqualFromNow = collect.get(false);
+        Collections.sort(afterOrEqualFromNow);
+        List<Pickup> beforeFromNow = collect.get(true);
+        Collections.sort(beforeFromNow,Collections.reverseOrder());
+        return Stream.of(afterOrEqualFromNow, beforeFromNow)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList());
+    }
 
 }
