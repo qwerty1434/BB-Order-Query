@@ -16,8 +16,11 @@ import java.util.List;
 public class PickupReader {
     private final PickupRepository pickupRepository;
 
-    public Page<Pickup> readByUserId(Long userId, Pageable pageable) {
-        return pickupRepository.findAllByUserIdOrderByPickupDateTimeDesc(userId, pageable);
+    public List<Pickup> readByUserId(Long userId) {
+        return pickupRepository.findAllByUserId(userId);
+    }
+    public Long userPickupCount() {
+        return pickupRepository.count();
     }
 
     public List<Pickup> readByStoreIdAndPickupDate(Long storeId, String pickupDate) {
