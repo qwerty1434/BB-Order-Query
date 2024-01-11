@@ -140,7 +140,7 @@ class PickupServiceTest extends DynamoEnv {
         pickupRepository.saveAll(List.of(p1,p2,p3,p4,p5));
 
         // when
-        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,5),now.toLocalDate())
+        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,2),now.toLocalDate())
                 .getContent();
 
         // then
@@ -212,29 +212,6 @@ class PickupServiceTest extends DynamoEnv {
 
         // then
         assertThat(pickupDetailDto.getPickupDate()).isEqualTo(pickup.getPickupDate());
-    }
-
-    @DisplayName("데이터를 페이징처리해 가져온다")
-    @Test
-    void getDataWithPaging() {
-        // given
-        Long userId = 1L;
-        Pickup p1 = createPickupWithUserId(userId);
-        Pickup p2 = createPickupWithUserId(userId);
-        Pickup p3 = createPickupWithUserId(userId);
-        Pickup p4 = createPickupWithUserId(userId);
-        Pickup p5 = createPickupWithUserId(userId);
-        Pickup p6 = createPickupWithUserId(userId);
-        Pickup p7 = createPickupWithUserId(userId);
-        pickupRepository.saveAll(List.of(p1,p2,p3,p4,p5,p6,p7));
-
-        // when
-        Pageable page = PageRequest.of(1,5);
-        Page<Pickup> result = pickupRepository.findAllByUserIdOrderByPickupDateTimeDesc(userId, page);
-
-        // then
-        assertThat(result.getContent().size()).isEqualTo(2);
-        assertThat(result.getTotalElements()).isEqualTo(7);
     }
 
     private PickupCreateDto createPickupCreateDto(String pickupReservationId) {

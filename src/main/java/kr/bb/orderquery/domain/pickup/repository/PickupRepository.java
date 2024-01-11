@@ -12,6 +12,6 @@ import java.util.List;
 @EnableScan
 public interface PickupRepository extends CrudRepository<Pickup, String> {
     List<Pickup> findAllByStoreId(Long storeId);
-    Page<Pickup> findAllByUserIdOrderByPickupDateTimeDesc(Long userId, Pageable pageable);
+    List<Pickup> findAllByUserId(Long userId);
     List<Pickup> findAllByStoreIdAndPickupDate(Long storeId, String pickupDate);
 }

@@ -35,15 +35,16 @@ public class PickupService {
 
 
 
-    public Page<PickupsInMypageDto> getPickupsForUser(Long userId, Pageable pageable, LocalDate now) {
-        Page<Pickup> pickups = pickupReader.readByUserId(userId, pageable);
-        List<Pickup> contents = pickups.getContent();
-        List<Pickup> sortedPickups = sortAroundNow(contents, now);
+    public Page<PickupsInMypageDto> getPickupsForUser(Long userId, Pageable pageable, LocalDate today) {
+        List<Pickup> contents = pickupReader.readByUserId(userId);
+        List<Pickup> sortedPickups = sortAroundToday(contents, today);
+        List<Pickup> slicedPickups = sliceList(sortedPickups, pageable);
+        Long count = pickupReader.userPickupCount();
 
-        List<PickupsInMypageDto> pickupsInMyPageDtos = sortedPickups.stream()
+        List<PickupsInMypageDto> pickupsInMyPageDtos = slicedPickups.stream()
                 .map(PickupsInMypageDto::fromEntity)
                 .collect(Collectors.toList());
-        return new PageImpl<>(pickupsInMyPageDtos, pickups.getPageable(), pickups.getTotalElements());
+        return new PageImpl<>(pickupsInMyPageDtos, pageable, count);
     }
 
     public List<PickupsForDateDto> getPickupsForDate(Long storeId, String pickupDate) {
@@ -82,7 +83,7 @@ public class PickupService {
      * 오늘이 13일이고 데이터가 [11,12,13,14,15,16]이라면
      * [13,14,15,16,12,11]로 정렬됩니다
      */
-    private List<Pickup> sortAroundNow(List<Pickup> pickups, LocalDate now) {
+    private List<Pickup> sortAroundToday(List<Pickup> pickups, LocalDate now) {
         Map<Boolean, List<Pickup>> collect = pickups.stream()
                 .collect(partitioningBy(pickup -> pickup.getPickupDateTime().toLocalDate().isBefore(now)));
         List<Pickup> afterOrEqualFromNow = collect.get(false);
@@ -92,6 +93,13 @@ public class PickupService {
         return Stream.of(afterOrEqualFromNow, beforeFromNow)
                         .flatMap(Collection::stream)
                         .collect(Collectors.toList());
+    }
+
+    private List<Pickup> sliceList(List<Pickup> contents, Pageable pageable) {
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), contents.size());
+
+        return contents.subList(start,end);
     }
 
 }
