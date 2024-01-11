@@ -140,7 +140,7 @@ class PickupServiceTest extends DynamoEnv {
         pickupRepository.saveAll(List.of(p1,p2,p3,p4,p5));
 
         // when
-        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,2),now.toLocalDate())
+        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,5),now.toLocalDate())
                 .getContent();
 
         // then
