@@ -43,6 +43,7 @@ public class PickupCreator {
                 .reservationStatus(pickupCreateDto.getReservationStatus())
                 .reviewStatus(pickupCreateDto.getReviewStatus())
                 .cardStatus(pickupCreateDto.getCardStatus())
+                .productId(pickupCreateDto.getProductId())
                 .build();
 
         return pickupRepository.save(pickup);
