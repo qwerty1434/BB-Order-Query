@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubscriptionDetailDto {
+    private String storeSubscriptionId;
     private String productName;
     private String productThumbnail;
     private Long unitPrice;
@@ -41,6 +42,7 @@ public class SubscriptionDetailDto {
 
     public static SubscriptionDetailDto fromEntity(Subscription subscription) {
         return SubscriptionDetailDto.builder()
+                .storeSubscriptionId(subscription.getSubscriptionId())
                 .productName(subscription.getProductName())
                 .productThumbnail(subscription.getProductThumbnail())
                 .unitPrice(subscription.getUnitPrice())

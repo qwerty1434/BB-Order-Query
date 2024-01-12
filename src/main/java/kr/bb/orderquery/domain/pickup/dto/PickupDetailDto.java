@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PickupDetailDto {
+    private String pickupReservationId;
     private String productName;
     private String productThumbnail;
     private Long unitPrice;
@@ -36,6 +37,7 @@ public class PickupDetailDto {
 
     public static PickupDetailDto fromEntity(Pickup pickup) {
         return PickupDetailDto.builder()
+                .pickupReservationId(pickup.getPickupReservationId())
                 .productName(pickup.getProductName())
                 .productThumbnail(pickup.getProductThumbnail())
                 .unitPrice(pickup.getUnitPrice())
