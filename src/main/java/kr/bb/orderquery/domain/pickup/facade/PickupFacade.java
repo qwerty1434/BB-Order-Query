@@ -24,6 +24,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -67,7 +68,7 @@ public class PickupFacade {
     }
 
     public PickupsInMypageResponse getPickupsOfUser(Long userId, Pageable pageable) {
-        LocalDate now = LocalDate.now();
+        LocalDateTime now = LocalDateTime.now();
         return PickupsInMypageResponse.from(pickupService.getPickupsForUser(userId, pageable, now));
     }
 
