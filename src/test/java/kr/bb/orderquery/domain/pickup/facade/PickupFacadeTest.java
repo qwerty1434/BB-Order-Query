@@ -12,6 +12,7 @@ import kr.bb.orderquery.domain.pickup.entity.Pickup;
 import kr.bb.orderquery.domain.pickup.repository.PickupRepository;
 import kr.bb.orderquery.domain.subscription.entity.Subscription;
 import kr.bb.orderquery.domain.subscription.repository.SubscriptionRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,6 +27,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 @SpringBootTest
@@ -95,7 +98,8 @@ class PickupFacadeTest extends DynamoEnv {
         PickAndSubResponse dataForCalendar = pickupFacade.getDataForCalendar(storeId);
 
         // then
-        System.out.println(dataForCalendar.getData().toString());
+        assertThat(dataForCalendar.getData())
+                .containsExactlyInAnyOrder("2023-12-21 SUBSCRIPTION", "2023-12-22 PICKUP", "2023-12-22 SUBSCRIPTION", "2023-12-23 PICKUP");
     }
 
 

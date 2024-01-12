@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,9 +36,9 @@ public class PickupService {
 
 
 
-    public Page<PickupsInMypageDto> getPickupsForUser(Long userId, Pageable pageable, LocalDate today) {
+    public Page<PickupsInMypageDto> getPickupsForUser(Long userId, Pageable pageable, LocalDateTime now) {
         List<Pickup> contents = pickupReader.readByUserId(userId);
-        List<Pickup> sortedPickups = sortAroundToday(contents, today);
+        List<Pickup> sortedPickups = sortAroundToday(contents, now);
         List<Pickup> slicedPickups = sliceList(sortedPickups, pageable);
         Long count = pickupReader.userPickupCount();
 
@@ -83,9 +84,9 @@ public class PickupService {
      * 오늘이 13일이고 데이터가 [11,12,13,14,15,16]이라면
      * [13,14,15,16,12,11]로 정렬됩니다
      */
-    private List<Pickup> sortAroundToday(List<Pickup> pickups, LocalDate now) {
+    private List<Pickup> sortAroundToday(List<Pickup> pickups, LocalDateTime now) {
         Map<Boolean, List<Pickup>> collect = pickups.stream()
-                .collect(partitioningBy(pickup -> pickup.getPickupDateTime().toLocalDate().isBefore(now)));
+                .collect(partitioningBy(pickup -> pickup.getPickupDateTime().isBefore(now.withNano(0))));
         List<Pickup> afterOrEqualFromNow = collect.get(false);
         Collections.sort(afterOrEqualFromNow);
         List<Pickup> beforeFromNow = collect.get(true);

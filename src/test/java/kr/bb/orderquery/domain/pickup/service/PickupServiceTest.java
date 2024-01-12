@@ -118,7 +118,7 @@ class PickupServiceTest extends DynamoEnv {
         pickupRepository.saveAll(List.of(p1,p2,p3,p4));
 
         // when
-        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,5), LocalDate.now())
+        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,5), LocalDateTime.now())
                 .getContent();
 
         // then
@@ -140,7 +140,7 @@ class PickupServiceTest extends DynamoEnv {
         pickupRepository.saveAll(List.of(p1,p2,p3,p4,p5));
 
         // when
-        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,5),now.toLocalDate())
+        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId, PageRequest.of(0,5),now)
                 .getContent();
 
         // then
@@ -156,25 +156,28 @@ class PickupServiceTest extends DynamoEnv {
 
     }
 
-    @DisplayName("픽업예약 목록은 예약 시간 기준 내림차순으로 정렬되어 있다")
+    @DisplayName("특정 유저의 픽업예약 목록은 현재시간 이후 예약들이 오름차순으로 먼저 등장한 뒤 오늘 이전 예약들이 내림차순으로 등장한다 ")
     @Test
     void pickupsForUserAreSortedWithPickupTimeDesc() {
         // given
         Long userId = 1L;
 
+        LocalDate today = LocalDate.now();
+        LocalDateTime now = LocalDateTime.of(today, LocalTime.parse("12:30",DateTimeFormatter.ofPattern("HH:mm")));
         Pickup p1 = createPickupWithPickupTime(userId, "12:30");
         Pickup p2 = createPickupWithPickupTime(userId, "13:00");
         Pickup p3 = createPickupWithPickupTime(userId, "12:00");
         pickupRepository.saveAll(List.of(p1,p2,p3));
 
         // when
-        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId,PageRequest.of(0,5),LocalDate.now())
+        List<PickupsInMypageDto> pickupsForUser = pickupService.getPickupsForUser(userId,PageRequest.of(0,5),now)
                 .getContent();
+        pickupsForUser.stream().forEach(v -> System.out.println(v.getPickupTime()));
 
         // then
         assertThat(pickupsForUser).hasSize(3)
                 .extracting("pickupTime")
-                .containsExactly("13:00","12:30","12:00");
+                .containsExactly("12:30","13:00","12:00");
     }
 
     @DisplayName("특정 가게의 특정 날짜에 예정되어 있는 픽업예약 목록을 가져온다")
