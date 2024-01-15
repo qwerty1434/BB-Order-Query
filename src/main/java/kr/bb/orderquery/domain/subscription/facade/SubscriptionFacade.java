@@ -1,6 +1,7 @@
 package kr.bb.orderquery.domain.subscription.facade;
 
 import bloomingblooms.domain.StatusChangeDto;
+import bloomingblooms.domain.order.SubscriptionStatusChangeDto;
 import bloomingblooms.domain.review.ReviewStatus;
 import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import bloomingblooms.domain.subscription.SubscriptionDateDtoList;
@@ -32,23 +33,24 @@ public class SubscriptionFacade {
         subscriptionService.createSubscription(subscriptionCreateDto);
     }
 
-    @KafkaListener(topics = "subscription-date-update", groupId = "sub-update")
+    @KafkaListener(topics = "subscription-date-update", groupId = "sub-date-update")
     public void updateSubscriptionDate(SubscriptionDateDtoList subscriptionDateDtoList) {
         subscriptionDateDtoList.getSubscriptionDateDtoList()
                         .forEach(subscriptionDateDto -> subscriptionService.updateSubscriptionDate(subscriptionDateDto.getSubscriptionId(),
                                 subscriptionDateDto.getNextDeliveryDate(), subscriptionDateDto.getNextPaymentDate()));
     }
 
-    @KafkaListener(topics= "unsubscribe", groupId = "unsub")
-    public void unSubscribe(String subscriptionId) {
-        subscriptionService.unSubscribe(subscriptionId);
+    @KafkaListener(topics = "subscription-status-update", groupId = "sub-update")
+    public void updateSubscriptionStatus(SubscriptionStatusChangeDto statusChangeDto) {
+        subscriptionService.updateSubscriptionStatus(statusChangeDto.getOrderId(), statusChangeDto.getSubscriptionStatus(),
+                statusChangeDto.getReviewStatus());
     }
 
     @SqsListener(
         value = "${cloud.aws.sqs.subscription-review-status-queue.name}",
         deletionPolicy = SqsMessageDeletionPolicy.NEVER
     )
-    public void updateReviewStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
+    public void doneReviewStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
         StatusChangeDto statusChangeDto = objectMapper.readValue(message, StatusChangeDto.class);
         subscriptionService.updateReviewStatus(statusChangeDto.getId(), ReviewStatus.DONE.toString());
         ack.acknowledge();

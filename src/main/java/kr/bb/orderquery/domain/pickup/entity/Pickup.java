@@ -105,7 +105,7 @@ public class Pickup implements Comparable<Pickup>{
     public void updateStatus(String reservationStatus, String cardStatus, String reviewStatus) {
         this.reservationStatus = reservationStatus;
         if("CANCELED".equals(reservationStatus)) {
-            isCanceled = true;
+            this.isCanceled = true;
         }
         this.cardStatus = cardStatus;
         this.reviewStatus = reviewStatus;

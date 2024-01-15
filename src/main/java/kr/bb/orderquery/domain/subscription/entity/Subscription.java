@@ -106,4 +106,11 @@ public class Subscription {
     @DynamoDBAttribute(attributeName = "product_id")
     private String productId;
 
+    public void updateStatus(String subscriptionStatus, String reviewStatus) {
+        if ("CANCELED".equals(subscriptionStatus)) {
+            this.isUnsubscribed = true;
+        }
+        this.reviewStatus = reviewStatus;
+    }
+
 }

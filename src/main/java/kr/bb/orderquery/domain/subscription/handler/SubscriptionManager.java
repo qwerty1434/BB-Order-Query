@@ -18,8 +18,8 @@ public class SubscriptionManager {
         subscriptionRepository.save(subscription);
     }
 
-    public void unSubscribe(Subscription subscription) {
-        subscription.setIsUnsubscribed(true);
+    public void changeSubscriptionStatus(Subscription subscription, String subscriptionStatus, String reviewStatus) {
+        subscription.updateStatus(subscriptionStatus, reviewStatus);
         subscriptionRepository.save(subscription);
     }
 
