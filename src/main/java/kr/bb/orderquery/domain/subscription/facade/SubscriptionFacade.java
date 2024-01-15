@@ -1,6 +1,7 @@
 package kr.bb.orderquery.domain.subscription.facade;
 
 import bloomingblooms.domain.StatusChangeDto;
+import bloomingblooms.domain.review.ReviewStatus;
 import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import bloomingblooms.domain.subscription.SubscriptionDateDtoList;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -49,7 +50,7 @@ public class SubscriptionFacade {
     )
     public void updateReviewStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
         StatusChangeDto statusChangeDto = objectMapper.readValue(message, StatusChangeDto.class);
-        subscriptionService.updateReviewStatus(statusChangeDto.getId(), statusChangeDto.getStatus());
+        subscriptionService.updateReviewStatus(statusChangeDto.getId(), ReviewStatus.DONE.toString());
         ack.acknowledge();
     }
 
