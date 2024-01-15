@@ -1,6 +1,7 @@
 package kr.bb.orderquery.domain.pickup.facade;
 
 import bloomingblooms.domain.StatusChangeDto;
+import bloomingblooms.domain.card.CardStatus;
 import bloomingblooms.domain.order.PickupStatusChangeDto;
 import bloomingblooms.domain.pickup.PickupCreateDto;
 import bloomingblooms.domain.store.StoreNameAndAddressDto;
@@ -24,7 +25,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,9 +53,9 @@ public class PickupFacade {
         value = "${cloud.aws.sqs.pickup-card-status-queue.name}",
         deletionPolicy = SqsMessageDeletionPolicy.NEVER
     )
-    public void updateCardStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
+    public void doneCardStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
         StatusChangeDto statusChangeDto = objectMapper.readValue(message, StatusChangeDto.class);
-        pickupService.updateCardStatus(statusChangeDto.getId(), statusChangeDto.getStatus());
+        pickupService.updateCardStatus(statusChangeDto.getId(), CardStatus.DONE.toString());
         ack.acknowledge();
     }
 
@@ -63,9 +63,9 @@ public class PickupFacade {
         value = "${cloud.aws.sqs.pickup-review-status-queue.name}",
         deletionPolicy = SqsMessageDeletionPolicy.NEVER
     )
-    public void updateReviewStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
+    public void doneReviewStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
         StatusChangeDto statusChangeDto = objectMapper.readValue(message, StatusChangeDto.class);
-        pickupService.updateReviewStatus(statusChangeDto.getId(), statusChangeDto.getStatus());
+        pickupService.updateReviewStatus(statusChangeDto.getId(), CardStatus.DONE.toString());
         ack.acknowledge();
     }
 
