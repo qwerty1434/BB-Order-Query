@@ -44,6 +44,7 @@ public class PickupCreator {
                 .reviewStatus(pickupCreateDto.getReviewStatus())
                 .cardStatus(pickupCreateDto.getCardStatus())
                 .productId(pickupCreateDto.getProductId())
+                .isCanceled(false)
                 .build();
 
         return pickupRepository.save(pickup);

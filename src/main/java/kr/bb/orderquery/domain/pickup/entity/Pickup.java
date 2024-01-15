@@ -93,8 +93,21 @@ public class Pickup implements Comparable<Pickup>{
     @DynamoDBAttribute(attributeName = "product_id")
     private String productId;
 
+    @DynamoDBAttribute(attributeName = "is_canceled")
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
+    private Boolean isCanceled;
+
     @Override
     public int compareTo(@NotNull Pickup o) {
         return this.getPickupDateTime().compareTo(o.getPickupDateTime());
+    }
+
+    public void updateStatus(String reservationStatus, String cardStatus, String reviewStatus) {
+        this.reservationStatus = reservationStatus;
+        if("CANCELED".equals(reservationStatus)) {
+            isCanceled = true;
+        }
+        this.cardStatus = cardStatus;
+        this.reviewStatus = reviewStatus;
     }
 }

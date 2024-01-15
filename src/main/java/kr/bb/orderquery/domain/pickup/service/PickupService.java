@@ -1,6 +1,8 @@
 package kr.bb.orderquery.domain.pickup.service;
 
+import bloomingblooms.domain.card.CardStatus;
 import bloomingblooms.domain.pickup.PickupCreateDto;
+import bloomingblooms.domain.review.ReviewStatus;
 import bloomingblooms.domain.store.StoreNameAndAddressDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupDetailDto;
 import kr.bb.orderquery.domain.pickup.dto.PickupsForDateDto;
@@ -33,8 +35,6 @@ public class PickupService {
     public Pickup createPickup(StoreNameAndAddressDto storeAddress, PickupCreateDto pickupCreateDto) {
         return pickupCreator.create(storeAddress, pickupCreateDto);
     }
-
-
 
     public Page<PickupsInMypageDto> getPickupsForUser(Long userId, Pageable pageable, LocalDateTime now) {
         List<Pickup> contents = pickupReader.readByUserId(userId);
@@ -74,9 +74,10 @@ public class PickupService {
         pickupManager.changeReviewStatus(pickup, reviewStatus);
     }
 
-    public void updateReservationStatus(String subscriptionId, String reservationStatus) {
+    public void updateReservationStatus(String subscriptionId, String reservationStatus,
+            CardStatus cardStatus, ReviewStatus reviewStatus) {
         Pickup pickup = pickupReader.read(subscriptionId);
-        pickupManager.changeReservationStatus(pickup, reservationStatus);
+        pickupManager.changeReservationStatus(pickup, reservationStatus, cardStatus.toString(), reviewStatus.toString());
     }
 
     /*

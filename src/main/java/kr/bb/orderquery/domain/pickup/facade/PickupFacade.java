@@ -1,6 +1,7 @@
 package kr.bb.orderquery.domain.pickup.facade;
 
 import bloomingblooms.domain.StatusChangeDto;
+import bloomingblooms.domain.order.PickupStatusChangeDto;
 import bloomingblooms.domain.pickup.PickupCreateDto;
 import bloomingblooms.domain.store.StoreNameAndAddressDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -43,8 +44,9 @@ public class PickupFacade {
     }
 
     @KafkaListener(topics = "pickup-status-update", groupId = "pick-update")
-    public void updateReservationStatus(StatusChangeDto statusChangeDto) {
-        pickupService.updateReservationStatus(statusChangeDto.getId(), statusChangeDto.getStatus());
+    public void updateReservationStatus(PickupStatusChangeDto pickupStatusChangeDto) {
+        pickupService.updateReservationStatus(pickupStatusChangeDto.getOrderId(), pickupStatusChangeDto.getPickupStatus(),
+                pickupStatusChangeDto.getCardStatus(), pickupStatusChangeDto.getReviewStatus());
     }
 
     @SqsListener(

@@ -20,8 +20,8 @@ public class PickupManager {
         pickupRepository.save(pickup);
     }
 
-    public void changeReservationStatus(Pickup pickup, String reservationStatus) {
-        pickup.setReviewStatus(reservationStatus);
+    public void changeReservationStatus(Pickup pickup, String reservationStatus, String cardStatus, String reviewStatus) {
+        pickup.updateStatus(reservationStatus, cardStatus, reviewStatus);
         pickupRepository.save(pickup);
     }
 
