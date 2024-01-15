@@ -267,6 +267,7 @@ class PickupServiceTest extends DynamoEnv {
                 .reservationStatus("RESERVATION_READY")
                 .reviewStatus("REVIEW_READY")
                 .cardStatus("CARD_READY")
+                .isCanceled(false)
                 .build();
     }
     private Pickup createPickupWithId(String pickupId) {
@@ -294,6 +295,7 @@ class PickupServiceTest extends DynamoEnv {
                 .reservationStatus("RESERVATION_READY")
                 .reviewStatus("REVIEW_READY")
                 .cardStatus("CARD_READY")
+                .isCanceled(false)
                 .build();
     }
 
@@ -322,6 +324,7 @@ class PickupServiceTest extends DynamoEnv {
                 .reservationStatus("RESERVATION_READY")
                 .reviewStatus("REVIEW_READY")
                 .cardStatus("CARD_READY")
+                .isCanceled(false)
                 .build();
 
     }
@@ -350,6 +353,7 @@ class PickupServiceTest extends DynamoEnv {
                 .reservationStatus("RESERVATION_READY")
                 .reviewStatus("REVIEW_READY")
                 .cardStatus("CARD_READY")
+                .isCanceled(false)
                 .build();
 
     }
@@ -379,6 +383,7 @@ class PickupServiceTest extends DynamoEnv {
                 .reservationStatus("RESERVATION_READY")
                 .reviewStatus("REVIEW_READY")
                 .cardStatus("CARD_READY")
+                .isCanceled(false)
                 .build();
     }
 
