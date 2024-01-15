@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -38,9 +39,12 @@ public class PickupService {
 
     public Page<PickupsInMypageDto> getPickupsForUser(Long userId, Pageable pageable, LocalDateTime now) {
         List<Pickup> contents = pickupReader.readByUserId(userId);
-        List<Pickup> sortedPickups = sortAroundToday(contents, now);
+        List<Pickup> validPickups = contents.stream()
+                .filter(Predicate.not(Pickup::getIsCanceled))
+                .collect(Collectors.toList());
+        List<Pickup> sortedPickups = sortAroundToday(validPickups, now);
         List<Pickup> slicedPickups = sliceList(sortedPickups, pageable);
-        Long count = pickupReader.userPickupCount();
+        long count = validPickups.size();
 
         List<PickupsInMypageDto> pickupsInMyPageDtos = slicedPickups.stream()
                 .map(PickupsInMypageDto::fromEntity)
@@ -51,6 +55,7 @@ public class PickupService {
     public List<PickupsForDateDto> getPickupsForDate(Long storeId, String pickupDate) {
         return pickupReader.readByStoreIdAndPickupDate(storeId, pickupDate)
                 .stream()
+                .filter(Predicate.not(Pickup::getIsCanceled))
                 .sorted(Comparator.comparing(Pickup::getPickupDateTime))
                 .map(PickupsForDateDto::fromEntity)
                 .collect(Collectors.toList());
@@ -61,7 +66,10 @@ public class PickupService {
     }
 
     public List<Pickup> getPickupByStoreId(Long storeId) {
-        return pickupReader.readByStoreId(storeId);
+        return pickupReader.readByStoreId(storeId)
+                .stream()
+                .filter(Predicate.not(Pickup::getIsCanceled))
+                .collect(Collectors.toList());
     }
 
     public void updateCardStatus(String subscriptionId, String cardStatus) {
