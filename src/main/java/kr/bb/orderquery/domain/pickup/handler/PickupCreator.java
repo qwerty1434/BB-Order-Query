@@ -1,5 +1,6 @@
 package kr.bb.orderquery.domain.pickup.handler;
 
+
 import bloomingblooms.domain.pickup.PickupCreateDto;
 import bloomingblooms.domain.store.StoreNameAndAddressDto;
 import kr.bb.orderquery.domain.pickup.entity.Pickup;
@@ -45,6 +46,7 @@ public class PickupCreator {
                 .cardStatus(pickupCreateDto.getCardStatus())
                 .productId(pickupCreateDto.getProductId())
                 .isCanceled(false)
+                .orderProductId(pickupCreateDto.getOrderProductId())
                 .build();
 
         return pickupRepository.save(pickup);

@@ -97,6 +97,9 @@ public class Pickup implements Comparable<Pickup>{
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
     private Boolean isCanceled;
 
+    @DynamoDBAttribute(attributeName = "order_product_id")
+    private Long orderProductId;
+
     @Override
     public int compareTo(@NotNull Pickup o) {
         return this.getPickupDateTime().compareTo(o.getPickupDateTime());
