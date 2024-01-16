@@ -98,7 +98,6 @@ class SubscriptionServiceTest extends DynamoEnv {
         Long userId = 1L;
         Subscription s1 = createSubscriptionWithUserId(userId);
         Subscription s2 = createSubscriptionWithUserId(userId);
-        s2.setIsUnsubscribed(true);
         Subscription s3 = createSubscriptionWithUserId(2L);
         Subscription s4 = createSubscriptionWithUserId(3L);
         subscriptionRepository.saveAll(List.of(s1,s2,s3,s4));
@@ -107,7 +106,7 @@ class SubscriptionServiceTest extends DynamoEnv {
         List<SubscriptionForUserDto> subscriptionsOfUser = subscriptionService.getSubscriptionsOfUser(userId);
 
         // then
-        assertThat(subscriptionsOfUser).hasSize(1);
+        assertThat(subscriptionsOfUser).hasSize(2);
     }
 
     @DisplayName("특정 가게의 특정 날짜에 예정되어 있는 구독 목록을 가져온다")

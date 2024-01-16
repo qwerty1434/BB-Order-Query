@@ -38,6 +38,7 @@ public class SubscriptionDetailDto {
     private LocalDate nextDeliveryDate;
     private String deliveryRequest;
     private String productId;
+    private Boolean isUnsubscribed;
 
 
     public static SubscriptionDetailDto fromEntity(Subscription subscription) {
@@ -66,6 +67,7 @@ public class SubscriptionDetailDto {
                 .nextDeliveryDate(LocalDate.parse(subscription.getNextDeliveryDate()))
                 .deliveryRequest(subscription.getDeliveryRequest())
                 .productId(subscription.getProductId())
+                .isUnsubscribed(subscription.getIsUnsubscribed())
                 .build();
     }
 }

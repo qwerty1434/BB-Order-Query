@@ -32,7 +32,11 @@ public class SubscriptionService {
     public List<SubscriptionForUserDto> getSubscriptionsOfUser(Long userId) {
         return subscriptionReader.readByUserId(userId)
                 .stream()
-                .filter(Predicate.not(Subscription::getIsUnsubscribed))
+                .filter(Predicate.not(subscription -> {
+                    LocalDate now = LocalDate.now();
+                    LocalDate nextDeliveryDate = LocalDate.parse(subscription.getNextDeliveryDate());
+                    return subscription.getIsUnsubscribed() && now.isAfter(nextDeliveryDate);
+                }))
                 .map(SubscriptionForUserDto::fromEntity)
                 .collect(Collectors.toList());
     }
