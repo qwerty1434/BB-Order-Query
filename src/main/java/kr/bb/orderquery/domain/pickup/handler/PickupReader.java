@@ -19,9 +19,6 @@ public class PickupReader {
     public List<Pickup> readByUserId(Long userId) {
         return pickupRepository.findAllByUserId(userId);
     }
-    public Long userPickupCount() {
-        return pickupRepository.count();
-    }
 
     public List<Pickup> readByStoreIdAndPickupDate(Long storeId, String pickupDate) {
         return pickupRepository.findAllByStoreIdAndPickupDate(storeId, pickupDate);

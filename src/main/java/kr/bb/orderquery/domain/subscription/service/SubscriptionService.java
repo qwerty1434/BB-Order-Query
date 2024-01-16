@@ -1,5 +1,6 @@
 package kr.bb.orderquery.domain.subscription.service;
 
+import bloomingblooms.domain.review.ReviewStatus;
 import bloomingblooms.domain.subscription.SubscriptionCreateDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionDetailDto;
 import kr.bb.orderquery.domain.subscription.dto.SubscriptionForDateDto;
@@ -31,7 +32,11 @@ public class SubscriptionService {
     public List<SubscriptionForUserDto> getSubscriptionsOfUser(Long userId) {
         return subscriptionReader.readByUserId(userId)
                 .stream()
-                .filter(Predicate.not(Subscription::getIsUnsubscribed))
+                .filter(Predicate.not(subscription -> {
+                    LocalDate now = LocalDate.now();
+                    LocalDate nextDeliveryDate = LocalDate.parse(subscription.getNextDeliveryDate());
+                    return subscription.getIsUnsubscribed() && now.isAfter(nextDeliveryDate);
+                }))
                 .map(SubscriptionForUserDto::fromEntity)
                 .collect(Collectors.toList());
     }
@@ -56,9 +61,9 @@ public class SubscriptionService {
         subscriptionManager.updateNextDeliveryDate(subscription, nextDeliveryDate, nextPaymentDate);
     }
 
-    public void unSubscribe(String subscriptionId) {
+    public void updateSubscriptionStatus(String subscriptionId, String subscriptionStatus, ReviewStatus reviewStatus) {
         Subscription subscription = subscriptionReader.read(subscriptionId);
-        subscriptionManager.unSubscribe(subscription);
+        subscriptionManager.changeSubscriptionStatus(subscription, subscriptionStatus, reviewStatus.toString());
     }
 
     public void updateReviewStatus(String subscriptionId, String reviewStatus) {

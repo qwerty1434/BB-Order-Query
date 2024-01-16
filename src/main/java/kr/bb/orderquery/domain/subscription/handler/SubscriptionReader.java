@@ -26,6 +26,6 @@ public class SubscriptionReader {
     }
 
     public List<Subscription> readByStoreId(Long storeId) {
-        return subscriptionRepository.findByStoreId(storeId);
+        return subscriptionRepository.findAllByStoreId(storeId);
     }
 }

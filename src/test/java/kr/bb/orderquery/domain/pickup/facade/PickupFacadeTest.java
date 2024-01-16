@@ -158,6 +158,7 @@ class PickupFacadeTest extends DynamoEnv {
                 .reviewStatus("REVIEW_READY")
                 .cardStatus("CARD_READY")
                 .productId("p1")
+                .isCanceled(false)
                 .build();
     }
 
