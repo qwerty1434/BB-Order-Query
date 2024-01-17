@@ -29,14 +29,17 @@ public class Pickup implements Comparable<Pickup>{
     @DynamoDBIndexHashKey(attributeName = "user_id", globalSecondaryIndexName = "byUserId")
     private Long userId;
 
+    @DynamoDBIndexHashKey(attributeName = "store_id", globalSecondaryIndexName = "byStoreId")
+    private Long storeId;
+
+    @DynamoDBIndexHashKey(attributeName = "order_product_id", globalSecondaryIndexName = "byOrderProductId")
+    private Long orderProductId;
+
     @DynamoDBAttribute(attributeName = "pickup_time")
     private String pickupTime;
 
     @DynamoDBAttribute(attributeName = "reservation_code")
     private String reservationCode;
-
-    @DynamoDBIndexHashKey(attributeName = "store_id", globalSecondaryIndexName = "byStoreId")
-    private Long storeId;
 
     @DynamoDBAttribute(attributeName = "store_name")
     private String storeName;
@@ -96,9 +99,6 @@ public class Pickup implements Comparable<Pickup>{
     @DynamoDBAttribute(attributeName = "is_canceled")
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
     private Boolean isCanceled;
-
-    @DynamoDBAttribute(attributeName = "order_product_id")
-    private Long orderProductId;
 
     @Override
     public int compareTo(@NotNull Pickup o) {

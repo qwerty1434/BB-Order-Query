@@ -55,7 +55,7 @@ public class PickupFacade {
     )
     public void doneCardStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
         StatusChangeDto statusChangeDto = objectMapper.readValue(message, StatusChangeDto.class);
-        pickupService.updateCardStatus(statusChangeDto.getId(), CardStatus.DONE.toString());
+        pickupService.updateCardStatusByOrderProductId(Long.parseLong(statusChangeDto.getId()), CardStatus.DONE.toString());
         ack.acknowledge();
     }
 
@@ -65,7 +65,7 @@ public class PickupFacade {
     )
     public void doneReviewStatus(@Payload String message, Acknowledgment ack) throws JsonProcessingException {
         StatusChangeDto statusChangeDto = objectMapper.readValue(message, StatusChangeDto.class);
-        pickupService.updateReviewStatus(statusChangeDto.getId(), CardStatus.DONE.toString());
+        pickupService.updateReviewStatusByOrderProductId(Long.parseLong(statusChangeDto.getId()), CardStatus.DONE.toString());
         ack.acknowledge();
     }
 

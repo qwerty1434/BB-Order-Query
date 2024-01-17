@@ -17,7 +17,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Predicate;
@@ -72,13 +71,13 @@ public class PickupService {
                 .collect(Collectors.toList());
     }
 
-    public void updateCardStatus(String subscriptionId, String cardStatus) {
-        Pickup pickup = pickupReader.read(subscriptionId);
+    public void updateCardStatusByOrderProductId(Long orderProductId, String cardStatus) {
+        Pickup pickup = pickupReader.readByOrderProductId(orderProductId);
         pickupManager.changeCardStatus(pickup, cardStatus);
     }
 
-    public void updateReviewStatus(String subscriptionId, String reviewStatus) {
-        Pickup pickup = pickupReader.read(subscriptionId);
+    public void updateReviewStatusByOrderProductId(Long orderProductId, String reviewStatus) {
+        Pickup pickup = pickupReader.readByOrderProductId(orderProductId);
         pickupManager.changeReviewStatus(pickup, reviewStatus);
     }
 
