@@ -28,6 +28,10 @@ public class PickupReader {
         return pickupRepository.findById(pickup).orElseThrow(PickupNotFoundException::new);
     }
 
+    public Pickup readByOrderProductId(Long orderProductId) {
+        return pickupRepository.findByOrderProductId(orderProductId).orElseThrow(PickupNotFoundException::new);
+    }
+
     public List<Pickup> readByStoreId(Long storeId) {
         return pickupRepository.findAllByStoreId(storeId);
     }
