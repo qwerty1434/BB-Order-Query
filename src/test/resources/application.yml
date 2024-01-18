@@ -1,0 +1,31 @@
+spring:
+  config:
+    activate:
+      on-profile: "test"
+  cloud:
+    config:
+      enabled: false
+cloud:
+  aws:
+    stack:
+      auto: false
+    region:
+      static: "ap-northeast-1"
+    credentials:
+      ACCESS_KEY_ID: ""
+      SECRET_ACCESS_KEY: ""
+    sqs:
+      pickup-review-status-queue:
+        name: ""
+      pickup-card-status-queue:
+        name: ""
+      subscription-review-status-queue:
+        name: ""
+endpoint:
+  product-service: ""
+  store-service: ""
+
+aws:
+  region: "ap-northeast-2"
+  dynamodb:
+    endpoint: "dynamodb.ap-northeast-2.amazonaws.com"
