@@ -41,6 +41,7 @@ public class SubscriptionCreator {
                 .deliveryPrice(subscriptionCreateDto.getDeliveryPrice())
                 .actualPrice(subscriptionCreateDto.getActualPrice())
                 .reviewStatus(subscriptionCreateDto.getReviewStatus())
+                .deliveryRequest(subscriptionCreateDto.getDeliveryRequest())
                 .isUnsubscribed(false)
                 .productId(subscriptionCreateDto.getProductId())
                 .build();
